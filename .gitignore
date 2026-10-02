@@ -1,0 +1,29 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# Data (large / regeneratable — document how to get it in README instead)
+data/*.json
+data/*.csv
+!data/.gitkeep
+
+# Trained models / outputs
+models/*.pkl
+models/*.png
+!models/.gitkeep
+
+# Kaggle credentials — NEVER commit this
+kaggle.json
+
+# Hop logs and runtime files
+logs/
+*.log
+
+# OS/editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+*.swp
