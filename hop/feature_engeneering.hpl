@@ -447,7 +447,7 @@
         </conditions>
       </condition>
     </compare>
-    <send_true_to>Filter rows 2</send_true_to>
+    <send_true_to>primary language null</send_true_to>
     <send_false_to>rejected data</send_false_to>
     <distribute>Y</distribute>
     <copies>1</copies>
@@ -466,21 +466,21 @@
     <name>rejected data</name>
     <compression>None</compression>
     <create_parent_folder>Y</create_parent_folder>
-    <separator>;</separator>
+    <separator>,</separator>
     <enclosure>"</enclosure>
-    <enclosure_forced>N</enclosure_forced>
+    <enclosure_forced>Y</enclosure_forced>
     <enclosure_fix_disabled>N</enclosure_fix_disabled>
     <header>Y</header>
     <footer>N</footer>
     <format>DOS</format>
-    <encoding/>
+    <encoding>UTF-8</encoding>
     <endedLine/>
     <fileNameInField>N</fileNameInField>
     <fileNameField/>
     <schema_definition/>
     <ignore_fields>N</ignore_fields>
     <file>
-      <name/>
+      <name>${PROJECT_HOME}/data/rejected_rows.csv</name>
       <do_not_open_new_file_init>Y</do_not_open_new_file_init>
       <extension/>
       <append>N</append>
@@ -508,6 +508,112 @@
     </partitioning>
     <attributes/>
   </transform>
+  <transform>
+    <type>StringOperations</type>
+    <name>String operations</name>
+    <fields>
+      <field>
+        <in_stream_name>primaryLanguage</in_stream_name>
+        <out_stream_name/>
+        <trim_type>both</trim_type>
+        <lower_upper>lower</lower_upper>
+        <init_cap>no</init_cap>
+        <mask_xml>none</mask_xml>
+        <digits>none</digits>
+        <remove_special_characters>none</remove_special_characters>
+        <padding_type>none</padding_type>
+        <pad_len/>
+        <pad_char/>
+      </field>
+    </fields>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>464</xloc>
+      <yloc>384</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+  </transform>
+  <transform>
+    <type>TextFileOutput</type>
+    <name>Text file output</name>
+    <compression>None</compression>
+    <create_parent_folder>Y</create_parent_folder>
+    <separator>,</separator>
+    <enclosure>"</enclosure>
+    <enclosure_forced>Y</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>Y</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <encoding>UTF-8</encoding>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <schema_definition/>
+    <ignore_fields>N</ignore_fields>
+    <file>
+      <name>${PROJECT_HOME}/data/pipeline2_output.csv</name>
+      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
+      <extension/>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery/>
+    </file>
+    <fields/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>624</xloc>
+      <yloc>400</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+  </transform>
+  <transform>
+    <type>IfNull</type>
+    <name>primary language null</name>
+    <fields>
+      <field>
+        <name>primaryLanguage</name>
+        <value>Unkown</value>
+        <mask/>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <valuetypes/>
+    <selectFields>Y</selectFields>
+    <selectValuesType>N</selectValuesType>
+    <replaceAllByValue/>
+    <replaceAllMask/>
+    <setEmptyStringAll>N</setEmptyStringAll>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>464</xloc>
+      <yloc>304</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+  </transform>
   <order>
     <hop>
       <from>CSV file input</from>
@@ -522,6 +628,21 @@
     <hop>
       <from>Filter rows</from>
       <to>rejected data</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>String operations</from>
+      <to>Text file output</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter rows</from>
+      <to>primary language null</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>primary language null</from>
+      <to>String operations</to>
       <enabled>Y</enabled>
     </hop>
   </order>
