@@ -1,8 +1,8 @@
 """Collect each repo's EARLY-LIFE activity from the GitHub REST API.
 
 For every repo in data/pipeline2_output.csv, this script records what happened
-in its first 6 months after creation (commits, contributors, stars, forks,
-issues, pull requests), then turns it into per-repo features for a 3-month and
+in its first 6 months after creation (commits, contributors, forks, issues,
+pull requests), then turns it into per-repo features for a 3-month and
 a 6-month window. Only information visible at the end of the window is used,
 so a model trained on these features genuinely forecasts abandonment.
 
@@ -17,7 +17,7 @@ public repositories, then put it in an environment variable:
 
 Usage, from the repo root:
   python scritpts/collect_early_activity.py --limit 20     # trial run on 20 repos
-  python scritpts/collect_early_activity.py                # full run (~5 hours, resumable)
+  python scritpts/collect_early_activity.py                # full run (~4 hours, resumable)
   python scritpts/collect_early_activity.py --features-only
 """
 import argparse
@@ -166,14 +166,9 @@ def collect_repo(gh, full_name, created_at):
         for c in commits
     ]
 
-    # stars, oldest first, stop past the window
-    stars, st = collect_list(
-        gh, f"{path}/stargazers", {},
-        accept="application/vnd.github.star+json",
-        stop=lambda s: parse_ts(s["starred_at"]) > end,
-    )
-    caps["stars"] = st
-    rec["stars"] = [s["starred_at"] for s in stars]
+    # Stars are NOT collected: since July 2026 GitHub limits the stargazer list to the
+    # repo's admins and collaborators (HTTP 403 for everyone else). Forks are the
+    # early-interest signal instead.
 
     # forks, oldest first, stop past the window
     forks, st = collect_list(
@@ -227,7 +222,23 @@ def done_names():
     return done
 
 
+def load_dotenv(path=ROOT / ".env"):
+    """Read KEY=value lines from the project's .env file into os.environ.
+    Values already set in the environment win; blank lines and # comments are skipped."""
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8-sig").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip().removeprefix("export ").strip()
+        value = value.strip().strip('"').strip("'")
+        os.environ.setdefault(key, value)
+
+
 def run_collect(limit=None):
+    load_dotenv()
     token = os.environ.get("GITHUB_TOKEN")
     if not token:
         sys.exit("GITHUB_TOKEN is not set. See the instructions at the top of this file.")
@@ -269,6 +280,11 @@ def window_features(rec, days):
     c_off = [(day_offset(c["date"], created), c["author"]) for c in rec.get("commits", [])]
     c_in = [(o, a) for o, a in c_off if inside(o)]
     authors = {a.lower() for _, a in c_in if a}
+    # Commits not linked to a GitHub account only carry an email, and one person often
+    # commits from several emails (one per laptop). So people are counted by linked
+    # account; unlinked commits add one person only when no account is linked at all.
+    linked = {a for a in authors if "@" not in a}
+    people = len(linked) or (1 if authors else 0)
     issues = [i for i in rec.get("issues", []) if inside(day_offset(i["created"], created))]
     opened_issues = [i for i in issues if not i["is_pr"]]
     opened_prs = [i for i in issues if i["is_pr"]]
@@ -280,9 +296,8 @@ def window_features(rec, days):
         "active_weeks": len({int(o // 7) for o, _ in c_in}),
         "commits_last_30d": sum(1 for o, _ in c_in if o > days - 30),
         "days_since_last_commit": round(days - last_commit, 1) if last_commit is not None else days,
-        "contributors": len(authors),
-        "nonowner_contributors": len(authors - {owner}),
-        "stars": sum(1 for s in rec.get("stars", []) if inside(day_offset(s, created))),
+        "contributors": people,
+        "nonowner_contributors": len(linked - {owner}),
         "forks": sum(1 for f in rec.get("forks", []) if inside(day_offset(f, created))),
         "issues_opened": len(opened_issues),
         "prs_opened": len(opened_prs),
@@ -316,7 +331,7 @@ FEATURE_COLUMNS = (
     ["nameWithOwner", "early_status", "owner_type", "renamed", "capped", "precreation_commits"]
     + [f"{k}_{label}" for label in WINDOWS for k in (
         "commits", "active_weeks", "commits_last_30d", "days_since_last_commit",
-        "contributors", "nonowner_contributors", "stars", "forks",
+        "contributors", "nonowner_contributors", "forks",
         "issues_opened", "prs_opened", "issues_prs_closed", "external_issue_authors")]
 )
 
