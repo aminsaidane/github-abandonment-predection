@@ -5,7 +5,7 @@ Cross-validation (training split):
               model  roc_auc_mean  roc_auc_std  pr_auc_active_mean  pr_auc_active_std  balanced_accuracy_mean  balanced_accuracy_std  f1_macro_mean  f1_macro_std
 logistic_regression         0.856        0.015               0.591              0.013                   0.781                  0.016          0.700         0.018
       random_forest         0.854        0.015               0.586              0.012                   0.769                  0.018          0.723         0.019
-            xgboost         0.845        0.020               0.567              0.022                   0.755                  0.016          0.719         0.016
+            xgboost         0.844        0.019               0.569              0.026                   0.756                  0.020          0.720         0.020
 
 Held-out test set vs baselines:
                                      balanced_accuracy  accuracy  roc_auc  pr_auc_active
