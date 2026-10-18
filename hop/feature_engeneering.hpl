@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <pipeline>
   <info>
     <capture_transform_performance>N</capture_transform_performance>
@@ -6,7 +6,7 @@
     <transform_performance_capturing_size_limit>100</transform_performance_capturing_size_limit>
     <pipeline_type>Normal</pipeline_type>
     <pipeline_status>-1</pipeline_status>
-    <parameters/>
+    <parameters />
     <name>New pipeline</name>
     <name_sync_with_filename>Y</name_sync_with_filename>
     <created_user>-</created_user>
@@ -19,7 +19,7 @@
     <name>CSV file input</name>
     <filename>${PROJECT_HOME}/data/pipeline1_output.csv</filename>
     <include_filename>N</include_filename>
-    <rownum_field/>
+    <rownum_field />
     <header>Y</header>
     <separator>,</separator>
     <enclosure>"</enclosure>
@@ -27,9 +27,9 @@
     <lazy_conversion>N</lazy_conversion>
     <add_filename_result>N</add_filename_result>
     <parallel>N</parallel>
-    <encoding/>
+    <encoding />
     <newline_possible>N</newline_possible>
-    <schemaDefinition/>
+    <schemaDefinition />
     <ignoreFields>N</ignoreFields>
     <fields>
       <field>
@@ -56,10 +56,10 @@
       </field>
       <field>
         <name>codeOfConduct</name>
-        <length>20</length>
+        <length>-1</length>
         <type>String</type>
-        <format/>
-        <trim_type>none</trim_type>
+        <format />
+        <trim_type>both</trim_type>
         <precision>-1</precision>
         <currency>$</currency>
         <decimal>.</decimal>
@@ -67,10 +67,10 @@
       </field>
       <field>
         <name>createdAt</name>
-        <length>24</length>
+        <length>-1</length>
         <type>String</type>
-        <format/>
-        <trim_type>none</trim_type>
+        <format />
+        <trim_type>both</trim_type>
         <precision>-1</precision>
         <currency>$</currency>
         <decimal>.</decimal>
@@ -100,10 +100,10 @@
       </field>
       <field>
         <name>description</name>
-        <length>608</length>
+        <length>-1</length>
         <type>String</type>
-        <format/>
-        <trim_type>none</trim_type>
+        <format />
+        <trim_type>both</trim_type>
         <precision>-1</precision>
         <currency>$</currency>
         <decimal>.</decimal>
@@ -124,7 +124,7 @@
         <name>forkingAllowed</name>
         <length>-1</length>
         <type>Boolean</type>
-        <format/>
+        <format />
         <trim_type>none</trim_type>
         <precision>-1</precision>
         <currency>$</currency>
@@ -146,7 +146,7 @@
         <name>isArchived</name>
         <length>-1</length>
         <type>Boolean</type>
-        <format/>
+        <format />
         <trim_type>none</trim_type>
         <precision>-1</precision>
         <currency>$</currency>
@@ -157,7 +157,7 @@
         <name>isFork</name>
         <length>-1</length>
         <type>Boolean</type>
-        <format/>
+        <format />
         <trim_type>none</trim_type>
         <precision>-1</precision>
         <currency>$</currency>
@@ -188,10 +188,10 @@
       </field>
       <field>
         <name>license</name>
-        <length>38</length>
+        <length>-1</length>
         <type>String</type>
-        <format/>
-        <trim_type>none</trim_type>
+        <format />
+        <trim_type>both</trim_type>
         <precision>-1</precision>
         <currency>$</currency>
         <decimal>.</decimal>
@@ -199,10 +199,10 @@
       </field>
       <field>
         <name>name</name>
-        <length>53</length>
+        <length>-1</length>
         <type>String</type>
-        <format/>
-        <trim_type>none</trim_type>
+        <format />
+        <trim_type>both</trim_type>
         <precision>-1</precision>
         <currency>$</currency>
         <decimal>.</decimal>
@@ -210,10 +210,10 @@
       </field>
       <field>
         <name>nameWithOwner</name>
-        <length>69</length>
+        <length>-1</length>
         <type>String</type>
-        <format/>
-        <trim_type>none</trim_type>
+        <format />
+        <trim_type>both</trim_type>
         <precision>-1</precision>
         <currency>$</currency>
         <decimal>.</decimal>
@@ -221,10 +221,10 @@
       </field>
       <field>
         <name>owner</name>
-        <length>22</length>
+        <length>-1</length>
         <type>String</type>
-        <format/>
-        <trim_type>none</trim_type>
+        <format />
+        <trim_type>both</trim_type>
         <precision>-1</precision>
         <currency>$</currency>
         <decimal>.</decimal>
@@ -232,10 +232,10 @@
       </field>
       <field>
         <name>parent</name>
-        <length>0</length>
+        <length>-1</length>
         <type>String</type>
-        <format/>
-        <trim_type>none</trim_type>
+        <format />
+        <trim_type>both</trim_type>
         <precision>-1</precision>
         <currency>$</currency>
         <decimal>.</decimal>
@@ -243,10 +243,10 @@
       </field>
       <field>
         <name>primaryLanguage</name>
-        <length>16</length>
+        <length>-1</length>
         <type>String</type>
-        <format/>
-        <trim_type>none</trim_type>
+        <format />
+        <trim_type>both</trim_type>
         <precision>-1</precision>
         <currency>$</currency>
         <decimal>.</decimal>
@@ -265,10 +265,10 @@
       </field>
       <field>
         <name>pushedAt</name>
-        <length>24</length>
+        <length>-1</length>
         <type>String</type>
-        <format/>
-        <trim_type>none</trim_type>
+        <format />
+        <trim_type>both</trim_type>
         <precision>-1</precision>
         <currency>$</currency>
         <decimal>.</decimal>
@@ -322,14 +322,14 @@
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>192</xloc>
+      <xloc>96</xloc>
       <yloc>192</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
-    <attributes/>
+    <attributes />
   </transform>
   <transform>
     <type>Formula</type>
@@ -337,43 +337,43 @@
     <formulas>
       <formula>
         <field_name>commits_per_day</field_name>
-        <formula>IF([repo_age_days] > 0, [defaultBranchCommitCount] / [repo_age_days], 0)</formula>
+        <formula>IF([repo_age_days] &gt; 0, [defaultBranchCommitCount] / [repo_age_days], 0)</formula>
         <value_type>1</value_type>
         <value_length>-1</value_length>
         <value_precision>-1</value_precision>
-        <replace_field/>
+        <replace_field />
         <set_na>N</set_na>
       </formula>
       <formula>
         <field_name>stars_per_day</field_name>
-        <formula>IF([repo_age_days] > 0, [stars] / [repo_age_days], 0)</formula>
+        <formula>IF([repo_age_days] &gt; 0, [stars] / [repo_age_days], 0)</formula>
         <value_type>1</value_type>
         <value_length>-1</value_length>
         <value_precision>-1</value_precision>
-        <replace_field/>
+        <replace_field />
         <set_na>N</set_na>
       </formula>
       <formula>
         <field_name>issues_per_pr</field_name>
-        <formula>IF([pullRequests] > 0, [issues] / [pullRequests], [issues])</formula>
+        <formula>IF([pullRequests] &gt; 0, [issues] / [pullRequests], [issues])</formula>
         <value_type>1</value_type>
         <value_length>-1</value_length>
         <value_precision>-1</value_precision>
-        <replace_field/>
+        <replace_field />
         <set_na>N</set_na>
       </formula>
     </formulas>
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>368</xloc>
+      <xloc>240</xloc>
       <yloc>192</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
-    <attributes/>
+    <attributes />
   </transform>
   <transform>
     <type>FilterRows</type>
@@ -390,7 +390,7 @@
             <operator>-</operator>
             <leftvalue>repo_age_days</leftvalue>
             <function>IS NOT NULL</function>
-            <conditions/>
+            <conditions />
           </condition>
           <condition>
             <negated>N</negated>
@@ -403,7 +403,7 @@
                 <operator>AND</operator>
                 <leftvalue>defaultBranchCommitCount</leftvalue>
                 <function>IS NOT NULL</function>
-                <conditions/>
+                <conditions />
               </condition>
               <condition>
                 <negated>N</negated>
@@ -416,7 +416,7 @@
                     <operator>AND</operator>
                     <leftvalue>stars</leftvalue>
                     <function>IS NOT NULL</function>
-                    <conditions/>
+                    <conditions />
                   </condition>
                   <condition>
                     <negated>N</negated>
@@ -429,14 +429,14 @@
                         <operator>AND</operator>
                         <leftvalue>pullRequests</leftvalue>
                         <function>IS NOT NULL</function>
-                        <conditions/>
+                        <conditions />
                       </condition>
                       <condition>
                         <negated>N</negated>
                         <operator>AND</operator>
                         <leftvalue>issues</leftvalue>
                         <function>IS NOT NULL</function>
-                        <conditions/>
+                        <conditions />
                       </condition>
                     </conditions>
                   </condition>
@@ -447,19 +447,19 @@
         </conditions>
       </condition>
     </compare>
-    <send_true_to>primary language null</send_true_to>
+    <send_true_to>String operations</send_true_to>
     <send_false_to>rejected data</send_false_to>
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>336</xloc>
-      <yloc>320</yloc>
+      <xloc>384</xloc>
+      <yloc>192</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
-    <attributes/>
+    <attributes />
   </transform>
   <transform>
     <type>TextFileOutput</type>
@@ -474,39 +474,39 @@
     <footer>N</footer>
     <format>DOS</format>
     <encoding>UTF-8</encoding>
-    <endedLine/>
+    <endedLine />
     <fileNameInField>N</fileNameInField>
-    <fileNameField/>
-    <schema_definition/>
+    <fileNameField />
+    <schema_definition />
     <ignore_fields>N</ignore_fields>
     <file>
       <name>${PROJECT_HOME}/data/rejected_rows.csv</name>
       <do_not_open_new_file_init>Y</do_not_open_new_file_init>
-      <extension/>
+      <extension />
       <append>N</append>
       <split>N</split>
       <haspartno>N</haspartno>
       <add_date>N</add_date>
       <add_time>N</add_time>
       <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format/>
+      <date_time_format />
       <add_to_result_filenames>Y</add_to_result_filenames>
       <pad>N</pad>
       <fast_dump>N</fast_dump>
-      <splitevery/>
+      <splitevery />
     </file>
-    <fields/>
+    <fields />
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>192</xloc>
-      <yloc>352</yloc>
+      <xloc>384</xloc>
+      <yloc>336</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
-    <attributes/>
+    <attributes />
   </transform>
   <transform>
     <type>StringOperations</type>
@@ -514,7 +514,7 @@
     <fields>
       <field>
         <in_stream_name>primaryLanguage</in_stream_name>
-        <out_stream_name/>
+        <out_stream_name />
         <trim_type>both</trim_type>
         <lower_upper>lower</lower_upper>
         <init_cap>no</init_cap>
@@ -522,21 +522,21 @@
         <digits>none</digits>
         <remove_special_characters>none</remove_special_characters>
         <padding_type>none</padding_type>
-        <pad_len/>
-        <pad_char/>
+        <pad_len />
+        <pad_char />
       </field>
     </fields>
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>384</yloc>
+      <xloc>528</xloc>
+      <yloc>192</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
-    <attributes/>
+    <attributes />
   </transform>
   <transform>
     <type>TextFileOutput</type>
@@ -551,68 +551,320 @@
     <footer>N</footer>
     <format>DOS</format>
     <encoding>UTF-8</encoding>
-    <endedLine/>
+    <endedLine />
     <fileNameInField>N</fileNameInField>
-    <fileNameField/>
-    <schema_definition/>
+    <fileNameField />
+    <schema_definition />
     <ignore_fields>N</ignore_fields>
     <file>
       <name>${PROJECT_HOME}/data/pipeline2_output.csv</name>
       <do_not_open_new_file_init>Y</do_not_open_new_file_init>
-      <extension/>
+      <extension />
       <append>N</append>
       <split>N</split>
       <haspartno>N</haspartno>
       <add_date>N</add_date>
       <add_time>N</add_time>
       <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format/>
+      <date_time_format />
       <add_to_result_filenames>Y</add_to_result_filenames>
       <pad>N</pad>
       <fast_dump>N</fast_dump>
-      <splitevery/>
+      <splitevery />
     </file>
-    <fields/>
+    <fields />
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>624</xloc>
-      <yloc>400</yloc>
+      <xloc>1392</xloc>
+      <yloc>192</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
-    <attributes/>
+    <attributes />
   </transform>
   <transform>
     <type>IfNull</type>
-    <name>primary language null</name>
+    <name>fill missing language and license</name>
     <fields>
       <field>
         <name>primaryLanguage</name>
-        <value>Unkown</value>
-        <mask/>
+        <value>unknown</value>
+        <mask />
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>license</name>
+        <value>none</value>
+        <mask />
         <set_empty_string>N</set_empty_string>
       </field>
     </fields>
-    <valuetypes/>
+    <valuetypes />
     <selectFields>Y</selectFields>
     <selectValuesType>N</selectValuesType>
-    <replaceAllByValue/>
-    <replaceAllMask/>
+    <replaceAllByValue />
+    <replaceAllMask />
     <setEmptyStringAll>N</setEmptyStringAll>
     <distribute>Y</distribute>
     <copies>1</copies>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>304</yloc>
+      <xloc>816</xloc>
+      <yloc>192</yloc>
     </GUI>
     <partitioning>
       <method>none</method>
-      <schema_name/>
+      <schema_name />
     </partitioning>
-    <attributes/>
+    <attributes />
+  </transform>
+  <transform>
+    <type>Formula</type>
+    <name>derived flags</name>
+    <formulas>
+      <formula>
+        <field_name>has_license</field_name>
+        <formula>IF(ISBLANK([license]), 0, 1)</formula>
+        <value_type>5</value_type>
+        <value_length>-1</value_length>
+        <value_precision>-1</value_precision>
+        <replace_field />
+        <set_na>N</set_na>
+      </formula>
+      <formula>
+        <field_name>has_description</field_name>
+        <formula>IF(ISBLANK([description]), 0, 1)</formula>
+        <value_type>5</value_type>
+        <value_length>-1</value_length>
+        <value_precision>-1</value_precision>
+        <replace_field />
+        <set_na>N</set_na>
+      </formula>
+      <formula>
+        <field_name>description_length</field_name>
+        <formula>IF(ISBLANK([description]), 0, LEN([description]))</formula>
+        <value_type>5</value_type>
+        <value_length>-1</value_length>
+        <value_precision>-1</value_precision>
+        <replace_field />
+        <set_na>N</set_na>
+      </formula>
+      <formula>
+        <field_name>has_code_of_conduct</field_name>
+        <formula>IF(ISBLANK([codeOfConduct]), 0, IF(OR(LOWER([codeOfConduct]) = "none", LOWER([codeOfConduct]) = "no code of conduct"), 0, 1))</formula>
+        <value_type>5</value_type>
+        <value_length>-1</value_length>
+        <value_precision>-1</value_precision>
+        <replace_field />
+        <set_na>N</set_na>
+      </formula>
+    </formulas>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>192</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <attributes />
+  </transform>
+  <transform>
+    <type>ValueMapper</type>
+    <name>group language</name>
+    <field_to_use>primaryLanguage</field_to_use>
+    <target_field>language_group</target_field>
+    <non_match_default>other</non_match_default>
+    <fields>
+      <field>
+        <source_value>python</source_value>
+        <target_value>python</target_value>
+      </field>
+      <field>
+        <source_value>javascript</source_value>
+        <target_value>javascript</target_value>
+      </field>
+      <field>
+        <source_value>java</source_value>
+        <target_value>java</target_value>
+      </field>
+      <field>
+        <source_value>c++</source_value>
+        <target_value>c++</target_value>
+      </field>
+      <field>
+        <source_value>typescript</source_value>
+        <target_value>typescript</target_value>
+      </field>
+      <field>
+        <source_value>c</source_value>
+        <target_value>c</target_value>
+      </field>
+      <field>
+        <source_value>c#</source_value>
+        <target_value>c#</target_value>
+      </field>
+      <field>
+        <source_value>php</source_value>
+        <target_value>php</target_value>
+      </field>
+      <field>
+        <source_value>jupyter notebook</source_value>
+        <target_value>jupyter notebook</target_value>
+      </field>
+      <field>
+        <source_value>html</source_value>
+        <target_value>html</target_value>
+      </field>
+      <field>
+        <source_value>go</source_value>
+        <target_value>go</target_value>
+      </field>
+      <field>
+        <source_value>shell</source_value>
+        <target_value>shell</target_value>
+      </field>
+      <field>
+        <source_value>ruby</source_value>
+        <target_value>ruby</target_value>
+      </field>
+      <field>
+        <source_value>rust</source_value>
+        <target_value>rust</target_value>
+      </field>
+      <field>
+        <source_value>swift</source_value>
+        <target_value>swift</target_value>
+      </field>
+      <field>
+        <source_value>unknown</source_value>
+        <target_value>unknown</target_value>
+      </field>
+    </fields>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>960</xloc>
+      <yloc>192</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <attributes />
+  </transform>
+  <transform>
+    <type>ValueMapper</type>
+    <name>group license</name>
+    <field_to_use>license</field_to_use>
+    <target_field>license_group</target_field>
+    <non_match_default>other</non_match_default>
+    <fields>
+      <field>
+        <source_value>MIT License</source_value>
+        <target_value>mit</target_value>
+      </field>
+      <field>
+        <source_value>Apache License 2.0</source_value>
+        <target_value>apache-2.0</target_value>
+      </field>
+      <field>
+        <source_value>GNU General Public License v3.0</source_value>
+        <target_value>gpl-3.0</target_value>
+      </field>
+      <field>
+        <source_value>GNU General Public License v2.0</source_value>
+        <target_value>gpl-2.0</target_value>
+      </field>
+      <field>
+        <source_value>BSD 3-Clause "New" or "Revised" License</source_value>
+        <target_value>bsd-3-clause</target_value>
+      </field>
+      <field>
+        <source_value>GNU Affero General Public License v3.0</source_value>
+        <target_value>agpl-3.0</target_value>
+      </field>
+      <field>
+        <source_value>none</source_value>
+        <target_value>none</target_value>
+      </field>
+    </fields>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>1104</xloc>
+      <yloc>192</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <attributes />
+  </transform>
+  <transform>
+    <type>SelectValues</type>
+    <name>drop constant columns</name>
+    <fields>
+      <select_unspecified>N</select_unspecified>
+      <remove>
+        <name>isFork</name>
+      </remove>
+      <remove>
+        <name>forkingAllowed</name>
+      </remove>
+      <remove>
+        <name>parent</name>
+      </remove>
+            <meta>
+        <name>language_group</name>
+        <rename>language_group</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>license_group</name>
+        <rename>license_group</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+    <GUI>
+      <xloc>1248</xloc>
+      <yloc>192</yloc>
+    </GUI>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <attributes />
   </transform>
   <order>
     <hop>
@@ -627,26 +879,46 @@
     </hop>
     <hop>
       <from>Filter rows</from>
-      <to>rejected data</to>
+      <to>String operations</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>String operations</from>
+      <to>derived flags</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>derived flags</from>
+      <to>fill missing language and license</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>fill missing language and license</from>
+      <to>group language</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>group language</from>
+      <to>group license</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>group license</from>
+      <to>drop constant columns</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>drop constant columns</from>
       <to>Text file output</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Filter rows</from>
-      <to>primary language null</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>primary language null</from>
-      <to>String operations</to>
+      <to>rejected data</to>
       <enabled>Y</enabled>
     </hop>
   </order>
-  <notepads/>
-  <attributes/>
-  <transform_error_handling/>
+  <notepads />
+  <attributes />
+  <transform_error_handling />
 </pipeline>
