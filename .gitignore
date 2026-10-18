@@ -7,6 +7,7 @@ __pycache__/
 
 # Data (large / regeneratable — document how to get it in README instead)
 data/*.json
+data/*.jsonl
 data/*.csv
 !data/.gitkeep
 
@@ -17,6 +18,7 @@ models/*.png
 
 # Kaggle credentials — NEVER commit this
 kaggle.json
+.env
 
 # Hop logs and runtime files
 logs/
