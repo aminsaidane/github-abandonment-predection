@@ -27,3 +27,5 @@ logs/
 Thumbs.db
 .vscode/
 *.swp
+
+.env
