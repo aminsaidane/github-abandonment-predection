@@ -1,0 +1,33 @@
+column,dtype,unit,description,role
+abandoned,int64,0/1,No push in the 365 days before the snapshot,target
+assignableUserCount,int64,users,Users who can be assigned issues (collaborators),feature
+codeOfConduct,object,text,"Code of conduct name, if any",support
+createdAt,object,timestamp,Repository creation time (UTC),support
+days_since_last_push,int64,days,Snapshot date minus pushedAt,leakage
+defaultBranchCommitCount,int64,commits,Commits on the default branch (lifetime),feature
+description,object,text,Repository description,support
+diskUsageKb,int64,KB,Repository size on disk,feature
+forks,int64,forks,Number of forks,feature
+isArchived,object,Y/N,Archived by the owner,leakage
+issues,int64,issues,Issues (all states),feature
+languageCount,int64,languages,Languages detected in the repo,feature
+license,object,text,License name ('none' if missing),support
+name,object,text,Repository name,identifier
+nameWithOwner,object,text,"owner/name, unique key",identifier
+owner,object,text,Owner login,identifier
+primaryLanguage,object,text,"Main language, lower-case ('unknown' if missing)",support
+pullRequests,int64,PRs,Pull requests (all states),feature
+pushedAt,object,timestamp,Last push time (UTC),leakage
+repo_age_days,int64,days,Snapshot date minus createdAt,feature
+stars,int64,stars,Stargazers at snapshot,feature
+topicCount,int64,topics,Topics attached to the repo,feature
+watchers,int64,users,Watchers,feature
+commits_per_day,float64,commits/day,defaultBranchCommitCount / repo_age_days (Hop),feature
+stars_per_day,float64,stars/day,stars / repo_age_days (Hop),feature
+issues_per_pr,float64,ratio,"issues / pullRequests, or issues if no PRs (Hop)",feature
+has_license,int64,0/1,License present (Hop),feature
+has_description,int64,0/1,Description present (Hop),feature
+description_length,int64,characters,Description length (Hop),feature
+has_code_of_conduct,int64,0/1,Real code of conduct present (Hop),feature
+language_group,object,category,"Top-15 languages + unknown, rest 'other' (Hop)",feature
+license_group,object,category,"6 common licenses + none, rest 'other' (Hop)",feature

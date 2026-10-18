@@ -1,0 +1,5 @@
+,missing,pct,treatment
+codeOfConduct,4752,95.6,kept as missing; encoded as has_code_of_conduct = 0
+license,2339,47.0,Hop IfNull -> 'none'; has_license = 0; license_group = 'none'
+description,637,12.8,"kept as missing; has_description = 0, description_length = 0"
+primaryLanguage,369,7.4,Hop IfNull -> 'unknown' (own category)

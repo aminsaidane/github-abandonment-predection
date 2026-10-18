@@ -1,0 +1,4 @@
+step,rows_out,rows_removed,reason
+Stratified sample (sampleDataset.py),5000,,
+Pipeline 1: age_check (repo_age_days >= 730),4982,18,age between 720 and 729 days (sampler used 24x30)
+Pipeline 2: Filter rows (no nulls in key counts),4973,9,null commit count -> data/rejected_rows.csv
