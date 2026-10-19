@@ -43,7 +43,7 @@ try to render it line-by-line and run out of memory. Keep it compact.
 Run the sampling script:
 
 ```bash
-python scripts/sample_dataset.py --input data/<your-downloaded-file>.json --output data/repos_sample_5000.json
+python scritpts/sampleDataset.py --input data/<your-downloaded-file>.json --output data/repos_sample_5000.json
 ```
 
 ### What this script does
@@ -75,7 +75,7 @@ python scripts/sample_dataset.py --input data/<your-downloaded-file>.json --outp
 ### Reading the console output
 
 ```
-Using 2023-01-28 as the dataset's reference 'now' ...
+Using 2025-09-13 as the dataset's reference 'now' (most recent pushedAt found in the data)
 Abandon rate across ALL records (any age): X%
 N records are 24+ months old ... (abandon rate: Y%)
 Sampled 5000 records (abandon rate in sample: Y%)
@@ -87,7 +87,7 @@ investigating before moving on to the ETL/modeling steps.
 
 ## 5. Adjusting the sample
 
-Edit these constants at the top of `scripts/sample_dataset.py` if needed:
+Edit these constants at the top of `scritpts/sampleDataset.py` if needed:
 
 | Constant | Default | Meaning |
 |---|---|---|

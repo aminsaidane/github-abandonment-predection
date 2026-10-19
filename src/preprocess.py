@@ -58,6 +58,11 @@ def get_train_test(path=config.DATA_PATH):
 
 
 # ------------------------------------------------------------------ transformer
+def safe_log(x):
+    """Natural log for strictly positive ratios; clips at 1e-6 so a zero can never give -inf."""
+    return np.log(np.clip(x, 1e-6, None))
+
+
 class Winsorizer(BaseEstimator, TransformerMixin):
     """Cap selected columns at an upper quantile learned from the TRAINING data.
 
@@ -88,19 +93,26 @@ class Winsorizer(BaseEstimator, TransformerMixin):
 
 
 def build_preprocessor(scale: bool = True) -> ColumnTransformer:
-    """Cap + log1p + (optional) scaling for numeric counts, one-hot for categoricals.
+    """Numeric: 99th-pct cap (3 vars) -> median impute -> log -> optional scaling.
+    Counts (which contain zeros) use log1p; the strictly positive ratios in
+    config.PLAIN_LOG_FEATURES use a plain log. Categoricals are one-hot encoded.
 
     Every step is fitted on the training split only. Trees don't need scaling,
-    but log1p is harmless for them and keeps SHAP plots readable, so the same
+    but the log is harmless for them and keeps SHAP plots readable, so the same
     transformer is used for every model.
     """
-    numeric_steps = [
-        ("cap", Winsorizer(config.WINSORIZE_FEATURES, config.WINSORIZE_QUANTILE)),
-        ("impute", SimpleImputer(strategy="median")),
-        ("log1p", FunctionTransformer(np.log1p, feature_names_out="one-to-one")),
-    ]
-    if scale:
-        numeric_steps.append(("scale", StandardScaler()))
+    def numeric_pipeline(log_fn, name):
+        steps = [
+            ("cap", Winsorizer(config.WINSORIZE_FEATURES, config.WINSORIZE_QUANTILE)),
+            ("impute", SimpleImputer(strategy="median")),
+            (name, FunctionTransformer(log_fn, feature_names_out="one-to-one")),
+        ]
+        if scale:
+            steps.append(("scale", StandardScaler()))
+        return Pipeline(steps)
+
+    plain_log = config.PLAIN_LOG_FEATURES
+    log1p_cols = [c for c in config.NUMERIC_FEATURES if c not in plain_log]
 
     derived_steps = [("impute", SimpleImputer(strategy="median"))]
     if scale:
@@ -108,7 +120,8 @@ def build_preprocessor(scale: bool = True) -> ColumnTransformer:
 
     return ColumnTransformer(
         transformers=[
-            ("num", Pipeline(numeric_steps), config.NUMERIC_FEATURES),
+            ("num", numeric_pipeline(np.log1p, "log1p"), log1p_cols),     # counts with zeros
+            ("ratio", numeric_pipeline(safe_log, "log"), plain_log),        # strictly positive ratios
             ("der", Pipeline(derived_steps), config.DERIVED_FEATURES),
             ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False),
              config.CATEGORICAL_FEATURES),
