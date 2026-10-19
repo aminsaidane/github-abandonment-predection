@@ -1,0 +1,3 @@
+step,rows_out,rows_removed,reason
+Pipeline 2 output (labeled),4973,,
+"Pipeline 3: join on nameWithOwner, keep early_status = ok",4921,52,"not_found: 51, http_403: 1"

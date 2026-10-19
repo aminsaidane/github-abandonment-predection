@@ -10,6 +10,8 @@ FIGURES_DIR = REPORTS_DIR / "figures"
 
 DATA_PATH = DATA_DIR / "pipeline2_output.csv"      # final output of the Hop ETL
 REJECTED_PATH = DATA_DIR / "rejected_rows.csv"     # Hop's error stream (not used for training)
+EARLY_DATA_PATH = DATA_DIR / "pipeline3_output.csv"        # Hop pipeline 3: labeled data + first-6-month activity
+REJECTED_EARLY_PATH = DATA_DIR / "rejected_early.csv"      # repos with no early data (deleted / blocked)
 MODEL_PATH = MODELS_DIR / "best_model.pkl"
 CV_RESULTS_PATH = REPORTS_DIR / "cv_results.csv"
 EVAL_REPORT_PATH = REPORTS_DIR / "evaluation_report.txt"

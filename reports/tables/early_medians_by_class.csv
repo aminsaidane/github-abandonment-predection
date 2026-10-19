@@ -1,0 +1,12 @@
+,Active,Abandoned,share_nonzero
+commits_6m,37.0,12.0,0.965
+active_weeks_6m,7.0,2.0,0.965
+commits_last_30d_6m,0.0,0.0,0.222
+days_since_last_commit_6m,30.85,143.9,0.993
+contributors_6m,1.0,1.0,0.965
+nonowner_contributors_6m,1.0,0.0,0.37
+external_issue_authors_6m,1.0,0.0,0.396
+issues_opened_6m,0.0,0.0,0.323
+prs_opened_6m,0.0,0.0,0.318
+forks_6m,1.0,0.0,0.483
+precreation_commits,0.0,0.0,0.279
