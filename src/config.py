@@ -59,6 +59,11 @@ CATEGORICAL_FEATURES = [
 WINSORIZE_FEATURES = ["defaultBranchCommitCount", "commits_per_day", "assignableUserCount"]
 WINSORIZE_QUANTILE = 0.99
 
+# Ratios that are always > 0 and mostly < 1: log1p(x) ~ x there and barely reduces
+# skew (11.2 -> 0.5 with a plain log for commits_per_day). Every other numeric
+# feature has zeros, so it keeps log1p.
+PLAIN_LOG_FEATURES = ["commits_per_day", "stars_per_day"]
+
 # Columns deliberately NOT used as features (kept here so the choice is explicit).
 # They stay in the CSV: Phase 3 (survival analysis) needs pushedAt / createdAt.
 #   - days_since_last_push, pushedAt : the label is defined from these -> direct leakage
