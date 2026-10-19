@@ -11,7 +11,7 @@ The ETL runs in **Apache Hop**; the analysis and modeling run in **Python**.
 
 | Path | Contents |
 |---|---|
-| `hop/` | Apache Hop ETL: `ingest_and_label.hpl` (age filter), `feature_engeneering.hpl` (ratios, flags, grouping, null handling), `merge_early_activity.hpl` (joins the early-life data), and `workflow.hwf`, which runs the three pipelines in order |
+| `pipelines/` | Apache Hop ETL: `ingest_and_label.hpl` (age filter), `feature_engeneering.hpl` (ratios, flags, grouping, null handling), `merge_early_activity.hpl` (joins the early-life data), and `workflow.hwf`, which runs the three pipelines in order |
 | `scritpts/` | `sampleDataset.py` (label and stratified sample) and `collect_early_activity.py` (GitHub API, first 3/6 months of each repo) |
 | `notebooks/` | `eda.ipynb`: data understanding, quality checks, EDA, hypothesis tests, feature engineering |
 | `src/` | `config.py` (paths, feature lists, settings), `preprocess.py`, `train.py`, `evaluate.py` |
@@ -49,13 +49,13 @@ Run everything from the repository root.
 |---|---|---|---|
 | 1 | Download the dataset | `kaggle datasets download -d pelmers/github-repository-metadata-with-5-stars -p ./data --unzip` | → `data/*.json` |
 | 2 | Label and sample | `python scritpts/sampleDataset.py --input data/<file>.json --output data/repos_sample_5000.json` | → `data/repos_sample_5000.json` |
-| 3 | Hop pipelines 1–2 | run `hop/ingest_and_label.hpl`, then `hop/feature_engeneering.hpl` | → `data/pipeline2_output.csv`, `data/rejected_rows.csv` |
+| 3 | Hop pipelines 1–2 | run `pipelines/ingest_and_label.hpl`, then `pipelines/feature_engeneering.hpl` | → `data/pipeline2_output.csv`, `data/rejected_rows.csv` |
 | 4 | Collect early activity (one-off, about 4 h, resumable) | `python scritpts/collect_early_activity.py` (try `--limit 20` first) | `pipeline2_output.csv` → `data/early_activity.csv` |
-| 5 | Hop pipeline 3 | run `hop/merge_early_activity.hpl` | → `data/pipeline3_output.csv`, `data/rejected_early.csv` |
+| 5 | Hop pipeline 3 | run `pipelines/merge_early_activity.hpl` | → `data/pipeline3_output.csv`, `data/rejected_early.csv` |
 | 6 | EDA | open `notebooks/eda.ipynb`, select the `venv` kernel, Run All | → `reports/figures/eda/`, `reports/tables/` |
 | 7 | Model (beyond the midterm scope) | `python -m src.train`, then `python -m src.evaluate` | → `models/best_model.pkl`, `reports/` |
 
-Once `data/early_activity.csv` exists, `hop/workflow.hwf` runs steps 3 and 5 in a single click.
+Once `data/early_activity.csv` exists, `pipelines/workflow.hwf` runs steps 3 and 5 in a single click.
 
 ## Key methodological decisions
 
