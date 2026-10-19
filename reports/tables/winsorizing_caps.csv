@@ -1,0 +1,4 @@
+feature,cap (train 99th pct),max before,train rows capped,test rows capped,skew of log1p before,skew of log1p after
+defaultBranchCommitCount,3608.45,701620.0,40,14,0.75,0.56
+commits_per_day,1.61,303.6001730852,40,14,11.87,4.45
+assignableUserCount,30.0,2028.0,39,18,4.09,2.48

@@ -53,6 +53,12 @@ CATEGORICAL_FEATURES = [
     "license_group",    # 6 common licenses + "none"; everything else -> "other"
 ]
 
+# Real-but-misleading extremes, capped at the 99th percentile of the TRAINING split
+# (EDA notebook, section 2.5): kernel copies inherit 400k-700k upstream commits,
+# and org-owned repos report every org member as an assignable user (~2,000).
+WINSORIZE_FEATURES = ["defaultBranchCommitCount", "commits_per_day", "assignableUserCount"]
+WINSORIZE_QUANTILE = 0.99
+
 # Columns deliberately NOT used as features (kept here so the choice is explicit).
 # They stay in the CSV: Phase 3 (survival analysis) needs pushedAt / createdAt.
 #   - days_since_last_push, pushedAt : the label is defined from these -> direct leakage

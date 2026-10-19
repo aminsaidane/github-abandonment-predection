@@ -11,6 +11,7 @@ Run directly for a quick data summary:
 """
 import numpy as np
 import pandas as pd
+from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split
@@ -57,13 +58,44 @@ def get_train_test(path=config.DATA_PATH):
 
 
 # ------------------------------------------------------------------ transformer
-def build_preprocessor(scale: bool = True) -> ColumnTransformer:
-    """log1p + (optional) scaling for numeric counts, one-hot for categoricals.
+class Winsorizer(BaseEstimator, TransformerMixin):
+    """Cap selected columns at an upper quantile learned from the TRAINING data.
 
-    Trees don't need scaling, but log1p is harmless for them and keeps SHAP
-    plots readable, so the same transformer is used for every model.
+    Used for variables whose extreme values are real but misleading (see the
+    EDA notebook, section 2.5): kernel copies that inherit hundreds of
+    thousands of upstream commits, and organisation-wide collaborator counts.
+    Other columns pass through unchanged.
+    """
+
+    def __init__(self, columns=(), quantile=0.99):
+        self.columns = columns
+        self.quantile = quantile
+
+    def fit(self, X, y=None):
+        X = pd.DataFrame(X).copy()
+        self.feature_names_in_ = np.asarray(X.columns, dtype=object)
+        self.caps_ = {c: float(X[c].quantile(self.quantile)) for c in self.columns if c in X.columns}
+        return self
+
+    def transform(self, X):
+        X = pd.DataFrame(X, columns=self.feature_names_in_).copy()
+        for c, cap in self.caps_.items():
+            X[c] = X[c].clip(upper=cap)
+        return X
+
+    def get_feature_names_out(self, input_features=None):
+        return self.feature_names_in_
+
+
+def build_preprocessor(scale: bool = True) -> ColumnTransformer:
+    """Cap + log1p + (optional) scaling for numeric counts, one-hot for categoricals.
+
+    Every step is fitted on the training split only. Trees don't need scaling,
+    but log1p is harmless for them and keeps SHAP plots readable, so the same
+    transformer is used for every model.
     """
     numeric_steps = [
+        ("cap", Winsorizer(config.WINSORIZE_FEATURES, config.WINSORIZE_QUANTILE)),
         ("impute", SimpleImputer(strategy="median")),
         ("log1p", FunctionTransformer(np.log1p, feature_names_out="one-to-one")),
     ]
