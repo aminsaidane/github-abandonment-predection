@@ -1,0 +1,11 @@
+window,baseline,roc_auc,roc_auc_sd,ap_active,ap_active_sd
+3m,constant (always 'abandoned'),0.5,0.0,0.161,0.001
+3m,no outside contributor,0.605,0.023,0.204,0.013
+3m,days since last commit,0.68,0.014,0.295,0.022
+3m,few active weeks,0.673,0.021,0.301,0.025
+3m,few commits,0.644,0.019,0.271,0.024
+6m,constant (always 'abandoned'),0.5,0.0,0.161,0.001
+6m,no outside contributor,0.62,0.022,0.211,0.013
+6m,days since last commit,0.729,0.012,0.344,0.028
+6m,few active weeks,0.717,0.022,0.354,0.031
+6m,few commits,0.679,0.014,0.307,0.021

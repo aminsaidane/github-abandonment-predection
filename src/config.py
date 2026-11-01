@@ -77,9 +77,30 @@ PLAIN_LOG_FEATURES = ["commits_per_day", "stars_per_day"]
 LEAKAGE_COLUMNS = ["days_since_last_push", "pushedAt", "isArchived"]
 ID_COLUMNS = ["name", "nameWithOwner", "owner"]
 
+# ---------------------------------------------------------------- early-life features (forecasting)
+# Activity measured over a repo's first 3 or 6 months (scritpts/collect_early_activity.py,
+# joined by Hop pipeline 3). Each column exists as <name>_3m and <name>_6m; a model uses ONE
+# window, since the 6-month values already contain the 3-month ones.
+EARLY_WINDOW_FEATURES = [
+    "commits", "active_weeks", "commits_last_30d", "days_since_last_commit",
+    "contributors", "nonowner_contributors", "forks", "issues_opened",
+    "prs_opened", "issues_prs_closed", "external_issue_authors",
+]
+# Bounded by the window length (0-26 weeks, 0-182 days): scaled, not logged.
+EARLY_BOUNDED_FEATURES = ["active_weeks", "days_since_last_commit"]
+# Known from day one, so safe for a forecast.
+CREATION_NUMERIC = ["precreation_commits"]     # imported history, log1p
+CREATION_FLAGS = ["is_org"]                    # owner is an organization
+CREATION_CATEGORICAL = ["language_group"]
+# Snapshot fields that may have changed after month 6 (license added later, description
+# edited). Left out of the forecasting model; src/baselines.py and the ablation test
+# measure what they would add.
+SNAPSHOT_ONLY_FIELDS = ["has_license", "has_description", "has_code_of_conduct"]
+
 # ---------------------------------------------------------------- modeling
 RANDOM_STATE = 42
 TEST_SIZE = 0.20
 CV_FOLDS = 5
 PRIMARY_METRIC = "roc_auc"       # threshold-free; robust to the ~84/16 class imbalance
+BASELINES_PATH = REPORTS_DIR / "baselines.csv"
 DECISION_THRESHOLD = 0.5         # probability above which a repo is flagged "abandoned"

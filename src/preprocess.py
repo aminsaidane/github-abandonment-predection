@@ -130,6 +130,63 @@ def build_preprocessor(scale: bool = True) -> ColumnTransformer:
     )
 
 
+# ------------------------------------------------------------------ early-life data (forecasting)
+def early_window_columns(window="6m"):
+    """Activity columns of one window, e.g. commits_6m, ..., split into unbounded counts and bounded ones."""
+    counts = [f"{f}_{window}" for f in config.EARLY_WINDOW_FEATURES if f not in config.EARLY_BOUNDED_FEATURES]
+    bounded = [f"{f}_{window}" for f in config.EARLY_BOUNDED_FEATURES]
+    return counts, bounded
+
+
+def early_feature_columns(window="6m"):
+    """Every input of the forecasting model: one window of early activity + facts known at creation."""
+    counts, bounded = early_window_columns(window)
+    return counts + bounded + config.CREATION_NUMERIC + config.CREATION_FLAGS + config.CREATION_CATEGORICAL
+
+
+def load_early_data(path=config.EARLY_DATA_PATH) -> pd.DataFrame:
+    """Read Hop pipeline 3's output and check every early column of both windows is present."""
+    df = pd.read_csv(path)
+    needed = set(early_feature_columns("3m") + early_feature_columns("6m") + [config.TARGET])
+    missing = needed - set(df.columns)
+    if missing:
+        raise ValueError(f"{path.name} is missing columns {sorted(missing)}. Re-run Hop pipeline 3.")
+    return df
+
+
+def get_early_train_test(path=config.EARLY_DATA_PATH):
+    """Stratified 80/20 split of the early data, same seed as the snapshot split.
+
+    X keeps every column, so either window, the snapshot-only fields (ablation) and the
+    creation date (temporal validation) can be selected later from the same split.
+    """
+    df = load_early_data(path)
+    X, y = df.drop(columns=[config.TARGET]), df[config.TARGET].astype(int)
+    return train_test_split(X, y, test_size=config.TEST_SIZE, stratify=y, random_state=config.RANDOM_STATE)
+
+
+def build_early_preprocessor(window="6m", scale=True, extra_flags=()) -> ColumnTransformer:
+    """Counts -> log1p (-> scale); bounded window measures -> scale; flags -> scale; language -> one-hot.
+
+    `extra_flags` adds 0/1 columns as they are (used by the ablation with the snapshot-only fields).
+    No capping here: whether it helps is tested as a separate experiment.
+    """
+    counts, bounded = early_window_columns(window)
+    def maybe_scale(steps):
+        return Pipeline(steps + ([("scale", StandardScaler())] if scale else [])) if steps or scale else "passthrough"
+
+    log_steps = [("log1p", FunctionTransformer(np.log1p, feature_names_out="one-to-one"))]
+    return ColumnTransformer(
+        transformers=[
+            ("counts", maybe_scale(list(log_steps)), counts + config.CREATION_NUMERIC),
+            ("bounded", maybe_scale([]), bounded),
+            ("flags", maybe_scale([]), config.CREATION_FLAGS + list(extra_flags)),
+            ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False), config.CREATION_CATEGORICAL),
+        ],
+        verbose_feature_names_out=False,
+    )
+
+
 # ------------------------------------------------------------------ summary
 def main():
     df = load_data()
