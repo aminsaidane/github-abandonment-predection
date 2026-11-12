@@ -103,4 +103,5 @@ TEST_SIZE = 0.20
 CV_FOLDS = 5
 PRIMARY_METRIC = "roc_auc"       # threshold-free; robust to the ~84/16 class imbalance
 BASELINES_PATH = REPORTS_DIR / "baselines.csv"
+EARLY_CV_RESULTS_PATH = REPORTS_DIR / "early_cv_results.csv"
 DECISION_THRESHOLD = 0.5         # probability above which a repo is flagged "abandoned"
