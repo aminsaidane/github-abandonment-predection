@@ -1,0 +1,16 @@
+window,model,class_weight,features,roc_auc,roc_auc_sd,ap_active,ap_active_sd,params_fold1
+3m,logistic regression,False,early + creation,0.73,0.012,0.377,0.035,{'C': np.float64(0.0746)}
+3m,logistic regression,True,early + creation,0.729,0.015,0.377,0.039,{'C': np.float64(0.0746)}
+3m,xgboost,False,early + creation,0.728,0.012,0.372,0.034,"{'colsample_bytree': np.float64(0.9166), 'learning_rate': np.float64(0.0168), 'max_depth': 2, 'min_child_weight': 4, 'subsample': np.float64(0.6729)}"
+3m,xgboost,True,early + creation,0.728,0.01,0.365,0.028,"{'colsample_bytree': np.float64(0.9166), 'learning_rate': np.float64(0.0168), 'max_depth': 2, 'min_child_weight': 4, 'subsample': np.float64(0.6729)}"
+3m,random forest,False,early + creation,0.721,0.008,0.355,0.027,"{'max_depth': 6, 'max_features': np.float64(0.2338), 'min_samples_leaf': 24}"
+3m,random forest,True,early + creation,0.72,0.01,0.354,0.028,"{'max_depth': 16, 'max_features': np.float64(0.2138), 'min_samples_leaf': 27}"
+3m,baseline: days since last commit,False,one signal,0.68,0.014,0.295,0.022,
+6m,logistic regression,False,+ snapshot-only fields,0.773,0.009,0.424,0.034,{'C': np.float64(0.0746)}
+6m,logistic regression,False,early + creation,0.763,0.01,0.413,0.03,{'C': np.float64(0.0746)}
+6m,logistic regression,True,early + creation,0.763,0.008,0.41,0.031,{'C': np.float64(0.0746)}
+6m,xgboost,True,early + creation,0.761,0.011,0.405,0.038,"{'colsample_bytree': np.float64(0.9166), 'learning_rate': np.float64(0.0168), 'max_depth': 2, 'min_child_weight': 4, 'subsample': np.float64(0.6729)}"
+6m,xgboost,False,early + creation,0.761,0.011,0.405,0.032,"{'colsample_bytree': np.float64(0.9166), 'learning_rate': np.float64(0.0168), 'max_depth': 2, 'min_child_weight': 4, 'subsample': np.float64(0.6729)}"
+6m,random forest,False,early + creation,0.757,0.009,0.396,0.028,"{'max_depth': 6, 'max_features': np.float64(0.2338), 'min_samples_leaf': 24}"
+6m,random forest,True,early + creation,0.757,0.011,0.399,0.03,"{'max_depth': 6, 'max_features': np.float64(0.2338), 'min_samples_leaf': 24}"
+6m,baseline: days since last commit,False,one signal,0.729,0.012,0.344,0.028,
