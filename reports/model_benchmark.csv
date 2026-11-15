@@ -1,0 +1,18 @@
+window,model,family,roc_auc,roc_auc_sd,ap_active,ap_active_sd,seconds,params_fold1,gap_to_best,gap_sd,tied_with_best,simplicity
+6m,Logistic regression,linear,0.764,0.0092,0.4143,0.031,9,{'C': np.float64(0.0332)},0.0,0.0,True,1
+6m,LightGBM,ensemble,0.7637,0.0118,0.408,0.0285,54,"{'colsample_bytree': np.float64(0.7713), 'learning_rate': np.float64(0.0153), 'min_child_samples': 24, 'num_leaves': 4, 'subsample': np.float64(0.6063), 'subsample_freq': 1}",0.0003,0.0046,True,4
+6m,Linear discriminant analysis,linear,0.7629,0.0077,0.4144,0.0268,8,{'shrinkage': np.float64(0.0581)},0.0011,0.0021,True,1
+6m,Logistic regression (L1),linear,0.7621,0.0096,0.4117,0.032,13,{'C': np.float64(1.0129)},0.0019,0.0027,True,1
+6m,XGBoost,ensemble,0.7605,0.0112,0.4047,0.0316,39,"{'colsample_bytree': np.float64(0.9166), 'learning_rate': np.float64(0.0168), 'max_depth': 2, 'min_child_weight': 4, 'subsample': np.float64(0.6729)}",0.0035,0.0053,True,4
+6m,Extra trees,ensemble,0.7578,0.0074,0.3976,0.0264,196,"{'max_depth': 6, 'max_features': np.float64(0.2395), 'min_samples_leaf': 24}",0.0062,0.0066,True,4
+6m,Gradient boosting (hist.),ensemble,0.7565,0.0157,0.3948,0.0266,57,"{'l2_regularization': np.float64(0.002), 'learning_rate': np.float64(0.0952), 'max_leaf_nodes': 5, 'min_samples_leaf': 15}",0.0075,0.0118,True,4
+6m,Random forest,ensemble,0.7564,0.0092,0.3949,0.028,243,"{'max_depth': 6, 'max_features': np.float64(0.3828), 'min_samples_leaf': 21}",0.0076,0.0058,False,4
+6m,AdaBoost,ensemble,0.755,0.0074,0.3987,0.0334,183,"{'learning_rate': np.float64(0.1718), 'n_estimators': 363}",0.009,0.0038,False,4
+6m,k-nearest neighbours,distance,0.7506,0.0074,0.3896,0.0193,19,"{'n_neighbors': 107, 'weights': 'distance'}",0.0134,0.0102,False,3
+6m,Neural network (MLP),neural,0.7477,0.0138,0.3971,0.0207,52,"{'alpha': np.float64(0.0), 'hidden_layer_sizes': (16,), 'learning_rate_init': np.float64(0.0085)}",0.0163,0.0146,False,5
+6m,Gaussian naive Bayes,probabilistic,0.7388,0.0092,0.3659,0.0163,7,{'var_smoothing': np.float64(0.0536)},0.0252,0.0119,False,1
+6m,Decision tree,tree,0.7348,0.0075,0.3464,0.0269,6,"{'max_depth': 9, 'min_samples_leaf': 135}",0.0292,0.011,False,2
+6m,Support vector machine (RBF),kernel,0.7102,0.0186,0.342,0.0212,54,"{'C': np.float64(0.0171), 'gamma': np.float64(0.3968)}",0.0538,0.021,False,4
+3m,Logistic regression,linear,0.7298,0.0132,0.3774,0.0371,9,{'C': np.float64(0.0746)},0.0,0.0,True,1
+3m,Linear discriminant analysis,linear,0.7292,0.0142,0.3797,0.033,8,{'shrinkage': np.float64(0.0581)},0.0006,0.0022,True,1
+3m,LightGBM,ensemble,0.7285,0.0061,0.366,0.0222,51,"{'colsample_bytree': np.float64(0.7713), 'learning_rate': np.float64(0.0153), 'min_child_samples': 24, 'num_leaves': 4, 'subsample': np.float64(0.6063), 'subsample_freq': 1}",0.0013,0.009,True,4
