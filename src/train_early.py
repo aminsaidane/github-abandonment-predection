@@ -63,7 +63,18 @@ def candidates(neg_over_pos: float):
     }
 
 
-def nested_cv(X, y, cols, estimator, scale, space, extra_flags=()):
+def score_abandoned(model, X):
+    """Probability of 'abandoned' when the model has one, else its decision score (e.g. an SVM).
+    ROC-AUC and AP only use the ranking, so both work the same way."""
+    if hasattr(model, "predict_proba"):
+        try:
+            return model.predict_proba(X)[:, 1]
+        except AttributeError:
+            pass
+    return model.decision_function(X)
+
+
+def nested_cv(X, y, cols, estimator, scale, space, extra_flags=(), return_folds=False, n_iter=N_ITER):
     """Outer 5-fold CV; in each training fold, tune on 3 inner folds, then score the held-out fold."""
     outer = StratifiedKFold(n_splits=config.CV_FOLDS, shuffle=True, random_state=SEED)
     inner = StratifiedKFold(n_splits=INNER_FOLDS, shuffle=True, random_state=SEED)
@@ -72,14 +83,16 @@ def nested_cv(X, y, cols, estimator, scale, space, extra_flags=()):
                      ("model", estimator)])
     auc, ap, params = [], [], []
     for tr, te in outer.split(X, y):
-        search = RandomizedSearchCV(clone(pipe), space, n_iter=N_ITER, cv=inner, scoring="roc_auc",
+        search = RandomizedSearchCV(clone(pipe), space, n_iter=n_iter, cv=inner, scoring="roc_auc",
                                     random_state=SEED, n_jobs=1, refit=True)
         search.fit(X.iloc[tr][cols], y.iloc[tr])
-        p = search.predict_proba(X.iloc[te][cols])[:, 1]          # probability of "abandoned"
+        p = score_abandoned(search, X.iloc[te][cols])               # higher = more likely abandoned
         auc.append(roc_auc_score(y.iloc[te], p))
-        ap.append(average_precision_score(1 - y.iloc[te], 1 - p))  # finding the active repos
+        ap.append(average_precision_score(1 - y.iloc[te], -p))      # finding the active repos
         params.append({k.replace("model__", ""): (round(v, 4) if isinstance(v, float) else v)
                        for k, v in search.best_params_.items()})
+    if return_folds:
+        return np.mean(auc), np.std(auc), np.mean(ap), np.std(ap), params, auc, ap
     return np.mean(auc), np.std(auc), np.mean(ap), np.std(ap), params
 
 
