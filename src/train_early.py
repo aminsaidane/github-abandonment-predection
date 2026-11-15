@@ -74,12 +74,16 @@ def score_abandoned(model, X):
     return model.decision_function(X)
 
 
-def nested_cv(X, y, cols, estimator, scale, space, extra_flags=(), return_folds=False, n_iter=N_ITER):
-    """Outer 5-fold CV; in each training fold, tune on 3 inner folds, then score the held-out fold."""
+def nested_cv(X, y, cols, estimator, scale, space, extra_flags=(), return_folds=False, n_iter=N_ITER,
+              prep=None):
+    """Outer 5-fold CV; in each training fold, tune on 3 inner folds, then score the held-out fold.
+
+    `prep` replaces the default preprocessor of the window (used by src/experiments.py)."""
     outer = StratifiedKFold(n_splits=config.CV_FOLDS, shuffle=True, random_state=SEED)
     inner = StratifiedKFold(n_splits=INNER_FOLDS, shuffle=True, random_state=SEED)
     window = "3m" if cols[0].endswith("_3m") else "6m"
-    pipe = Pipeline([("prep", build_early_preprocessor(window, scale=scale, extra_flags=extra_flags)),
+    prep = prep if prep is not None else build_early_preprocessor(window, scale=scale, extra_flags=extra_flags)
+    pipe = Pipeline([("prep", prep),
                      ("model", estimator)])
     auc, ap, params = [], [], []
     for tr, te in outer.split(X, y):

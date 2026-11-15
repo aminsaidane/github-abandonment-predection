@@ -165,17 +165,23 @@ def get_early_train_test(path=config.EARLY_DATA_PATH):
     return train_test_split(X, y, test_size=config.TEST_SIZE, stratify=y, random_state=config.RANDOM_STATE)
 
 
-def build_early_preprocessor(window="6m", scale=True, extra_flags=()) -> ColumnTransformer:
+def build_early_preprocessor(window="6m", scale=True, extra_flags=(), counts=None, bounded=None,
+                             cap_quantile=None) -> ColumnTransformer:
     """Counts -> log1p (-> scale); bounded window measures -> scale; flags -> scale; language -> one-hot.
 
     `extra_flags` adds 0/1 columns as they are (used by the ablation with the snapshot-only fields).
-    No capping here: whether it helps is tested as a separate experiment.
+    `counts` / `bounded` replace the window's default column lists (used by src/experiments.py).
+    `cap_quantile` caps every count at that training quantile before the log (off by default).
     """
-    counts, bounded = early_window_columns(window)
+    default_counts, default_bounded = early_window_columns(window)
+    counts = list(default_counts if counts is None else counts)
+    bounded = list(default_bounded if bounded is None else bounded)
     def maybe_scale(steps):
         return Pipeline(steps + ([("scale", StandardScaler())] if scale else [])) if steps or scale else "passthrough"
 
     log_steps = [("log1p", FunctionTransformer(np.log1p, feature_names_out="one-to-one"))]
+    if cap_quantile is not None:
+        log_steps = [("cap", Winsorizer(columns=counts + config.CREATION_NUMERIC, quantile=cap_quantile))] + log_steps
     return ColumnTransformer(
         transformers=[
             ("counts", maybe_scale(list(log_steps)), counts + config.CREATION_NUMERIC),
