@@ -1,0 +1,17 @@
+experiment,variant,roc_auc,roc_auc_sd,ap_active,ap_active_sd,delta_auc,delta_sd,verdict
+capping,no capping,0.7634,0.0099,0.413,0.0298,0.0,0.0,reference
+capping,cap at 95th percentile,0.7645,0.0089,0.4129,0.0305,0.0011,0.001,better
+capping,cap at 99th percentile,0.7637,0.0099,0.4136,0.0313,0.0003,0.0003,tie (keep the simpler one)
+corr,all features,0.7634,0.0099,0.413,0.0298,0.0,0.0,reference
+corr,drop active_weeks_6m,0.7615,0.0088,0.4041,0.0246,-0.002,0.0026,tie (keep the simpler one)
+corr,drop days_since_last_commit_6m,0.7489,0.0063,0.4031,0.0294,-0.0146,0.0073,worse
+corr,drop prs_opened_6m,0.7643,0.0107,0.4108,0.0307,0.0008,0.0014,tie (keep the simpler one)
+corr,drop issues_prs_closed_6m,0.7641,0.0102,0.4142,0.0292,0.0007,0.0009,tie (keep the simpler one)
+corr,drop contributors_6m,0.7626,0.0094,0.4133,0.0314,-0.0009,0.0007,worse
+corr,drop nonowner_contributors_6m,0.7636,0.0099,0.4129,0.0297,0.0002,0.0002,better
+corr,drop commits_6m,0.7618,0.0084,0.4127,0.0296,-0.0016,0.0025,tie (keep the simpler one)
+corr,drop external_issue_authors_6m,0.7622,0.0096,0.4123,0.0276,-0.0013,0.0016,tie (keep the simpler one)
+corr,drop one of each pair (4 features),0.7396,0.0072,0.3944,0.0239,-0.0238,0.0122,worse
+trend,no trend (reference),0.7634,0.0099,0.413,0.0298,0.0,0.0,reference
+trend,+ trend (log-ratio of commits and active weeks),0.7618,0.0074,0.4116,0.0307,-0.0016,0.0046,tie (keep the simpler one)
+trend,+ trend + months 1-3 and 4-6 counts,0.7606,0.009,0.4113,0.033,-0.0028,0.0035,tie (keep the simpler one)

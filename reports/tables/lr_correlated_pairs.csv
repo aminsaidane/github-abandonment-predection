@@ -1,0 +1,6 @@
+feature_a,feature_b,abs_spearman
+active_weeks_6m,days_since_last_commit_6m,0.869
+prs_opened_6m,issues_prs_closed_6m,0.85
+contributors_6m,nonowner_contributors_6m,0.834
+commits_6m,active_weeks_6m,0.822
+issues_prs_closed_6m,external_issue_authors_6m,0.808
