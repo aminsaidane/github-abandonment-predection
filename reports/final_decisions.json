@@ -1,0 +1,78 @@
+{
+  "written": "2026-11-25",
+  "n_train": 3936,
+  "abandon_rate_train": 0.8394308943089431,
+  "window": "6m",
+  "class_weight": null,
+  "C": 0.028888383623653185,
+  "cv_roc_auc_for_C": 0.7641257486363923,
+  "calibration": "none",
+  "calibration_candidates": [
+    {
+      "calibration": "none",
+      "brier": 0.115893521883304,
+      "gain_vs_none": 0.0,
+      "gain_sd": 0.0
+    },
+    {
+      "calibration": "sigmoid",
+      "brier": 0.11603635936988219,
+      "gain_vs_none": -0.0001428374865781956,
+      "gain_sd": 5.72109519374939e-05
+    },
+    {
+      "calibration": "isotonic",
+      "brier": 0.11673586127864474,
+      "gain_vs_none": -0.0008423393953407438,
+      "gain_sd": 0.0005867177571052918
+    }
+  ],
+  "min_brier_gain_rule": 0.001,
+  "threshold": 0.84,
+  "threshold_bootstrap_sd": 0.006048966853934648,
+  "criterion": "maximise balanced accuracy on calibrated out-of-fold probabilities; flagged = predicted abandoned",
+  "oof": {
+    "roc_auc": 0.7610833722836914,
+    "ap_active": 0.40357961695449673,
+    "brier": 0.11589280179825788,
+    "ece": 0.012232165600013705,
+    "mean_predicted": 0.8390473252753835,
+    "balanced_accuracy_at_threshold": 0.70626130198915,
+    "recall_abandoned": 0.7321428571428571,
+    "recall_active": 0.680379746835443
+  },
+  "oof_by_creation_period": [
+    {
+      "created": "<= 2017",
+      "n": 1512,
+      "observed_abandoned": 0.9007936507936508,
+      "mean_predicted": 0.8410404477779551,
+      "roc_auc": 0.7430200685266766
+    },
+    {
+      "created": "2018-2019",
+      "n": 779,
+      "observed_abandoned": 0.8677792041078306,
+      "mean_predicted": 0.8397357197439662,
+      "roc_auc": 0.7864652151433331
+    },
+    {
+      "created": "2020-2021",
+      "n": 953,
+      "observed_abandoned": 0.7838405036726128,
+      "mean_predicted": 0.8321675858200139,
+      "roc_auc": 0.7563002820342861
+    },
+    {
+      "created": "2022-2023",
+      "n": 692,
+      "observed_abandoned": 0.75,
+      "mean_predicted": 0.8433920235211249,
+      "roc_auc": 0.7979328856070478
+    }
+  ],
+  "versions": {
+    "sklearn": "1.9.1",
+    "python": "3.13.18"
+  }
+}

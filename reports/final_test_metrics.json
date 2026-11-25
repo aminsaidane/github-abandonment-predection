@@ -1,0 +1,75 @@
+{
+  "n_test": 985,
+  "abandon_rate_test": 0.8395939086294416,
+  "threshold": 0.84,
+  "calibration": "none",
+  "roc_auc": 0.7789172393736703,
+  "roc_auc_ci": [
+    0.741823323426015,
+    0.8137264357950199
+  ],
+  "ap_abandoned": 0.9423407124085017,
+  "ap_abandoned_no_skill": 0.8395939086294416,
+  "ap_active": 0.4050188425419408,
+  "ap_active_ci": [
+    0.33657097258918633,
+    0.4890174931999059
+  ],
+  "ap_active_no_skill": 0.1604060913705584,
+  "baseline_roc_auc_single_rule": 0.7371083525936356,
+  "brier": 0.11431415586430729,
+  "brier_ci": [
+    0.10208971473196866,
+    0.1278818012057393
+  ],
+  "log_loss": 0.37182383060157576,
+  "ece": 0.034337479110517405,
+  "mean_predicted": 0.8359568601437971,
+  "confusion": {
+    "true_active_pred_active": 112,
+    "true_active_flagged": 46,
+    "true_abandoned_missed": 232,
+    "true_abandoned_flagged": 595
+  },
+  "balanced_accuracy": 0.7141643579814183,
+  "balanced_accuracy_ci": [
+    0.6734083384980086,
+    0.7492932871180475
+  ],
+  "recall_abandoned": 0.7194679564691656,
+  "recall_active": 0.7088607594936709,
+  "precision_abandoned": 0.9282371294851794,
+  "precision_active": 0.32558139534883723,
+  "share_flagged": 0.650761421319797,
+  "cv_estimate_roc_auc": 0.7610833722836914,
+  "by_creation_period": [
+    {
+      "created": "<= 2017",
+      "n": 391,
+      "observed_abandoned": 0.8976982097186701,
+      "mean_predicted": 0.8441827083160715,
+      "roc_auc": 0.7654558404558405
+    },
+    {
+      "created": "2018-2019",
+      "n": 225,
+      "observed_abandoned": 0.8666666666666667,
+      "mean_predicted": 0.841082382039169,
+      "roc_auc": 0.7993162393162393
+    },
+    {
+      "created": "2020-2021",
+      "n": 214,
+      "observed_abandoned": 0.7897196261682243,
+      "mean_predicted": 0.8159000712219215,
+      "roc_auc": 0.8625904010519394
+    },
+    {
+      "created": "2022-2023",
+      "n": 155,
+      "observed_abandoned": 0.7225806451612903,
+      "mean_predicted": 0.835457529611303,
+      "roc_auc": 0.6783637873754154
+    }
+  ]
+}

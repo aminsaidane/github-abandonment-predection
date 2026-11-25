@@ -14,6 +14,7 @@ EARLY_RAW_PATH = DATA_DIR / "early_activity.csv"           # collector output, i
 EARLY_DATA_PATH = DATA_DIR / "pipeline3_output.csv"        # Hop pipeline 3: labeled data + first-6-month activity
 REJECTED_EARLY_PATH = DATA_DIR / "rejected_early.csv"      # repos with no early data (deleted / blocked)
 MODEL_PATH = MODELS_DIR / "best_model.pkl"
+FINAL_MODEL_PATH = MODELS_DIR / "final_model.pkl"   # early-life model + calibrator + cut-off (committed: the dashboard loads it)
 CV_RESULTS_PATH = REPORTS_DIR / "cv_results.csv"
 EVAL_REPORT_PATH = REPORTS_DIR / "evaluation_report.txt"
 

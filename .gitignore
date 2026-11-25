@@ -13,6 +13,7 @@ data/*.csv
 
 # Trained models / outputs
 models/*.pkl
+!models/final_model.pkl
 models/*.png
 !models/.gitkeep
 
