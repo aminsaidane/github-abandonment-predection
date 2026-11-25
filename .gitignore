@@ -32,3 +32,5 @@ Thumbs.db
 *.swp
 
 .env
+# Dashboard frontend
+dashboard/frontend/node_modules/
