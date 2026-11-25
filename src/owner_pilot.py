@@ -106,6 +106,9 @@ def analyze(data_path):
              .merge(owner, on="nameWithOwner", how="left"))
     print(f"pilot repos: {len(pilot)}; owner status: {pilot['owner_status'].value_counts(dropna=False).to_dict()}")
     pilot = pilot[pilot["owner_status"] == "ok"].reset_index(drop=True)
+    if pilot.empty:
+        raise SystemExit("no pilot repo has owner_status 'ok': the collection failed (see the status counts above). "
+                         "Fix the cause (for http_401: the GitHub token), rerun the collector, then this analysis.")
     n, n_act = len(pilot), int((pilot["y"] == 0).sum())
     print(f"analysed: {n} repos ({n_act} active, {n - n_act} abandoned)")
     if min(n_act, n - n_act) < 100:

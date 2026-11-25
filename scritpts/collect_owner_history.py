@@ -114,6 +114,10 @@ def run_collect(targets, raw_path):
                 rec = collect_owner(gh, login)
             except Exception as e:                       # keep going; record the failure
                 rec = {"owner": login, "status": f"error:{e.__class__.__name__}"}
+            if rec.get("status") == "http_401":          # bad credentials fail every call: stop now
+                sys.exit("GitHub rejected the token (HTTP 401). Nothing was saved for this owner. Check that "
+                         "GITHUB_TOKEN is valid and not expired, and that no old GITHUB_TOKEN variable in the "
+                         "shell overrides the one in .env. Then run the same command again: it resumes.")
             out.write(json.dumps(rec) + "\n")
             out.flush()                                   # every owner is saved immediately
             if n % 25 == 0 or n == len(todo):

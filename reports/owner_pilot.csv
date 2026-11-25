@@ -1,0 +1,5 @@
+test,chi2,df,p_value,odds_ratio_per_sd,n_repos,n_active
+joint (3 owner features),3.1088,3,0.3752,,299,150
+log_account_age,2.2564,1,0.1331,0.7791,299,150
+log_prior_repos,0.057,1,0.8112,0.9595,299,150
+dormant_share,0.2671,1,0.6053,1.0889,299,150
