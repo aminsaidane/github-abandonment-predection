@@ -1,0 +1,22 @@
+FINAL EVALUATION, held-out test split (read once)
+model: logistic regression, 6m features, C = 0.0289, calibration = none, cut-off = 0.840
+test repos: 985 (84.0% abandoned)
+
+ROC-AUC            0.779  (95% CI 0.742-0.814)   cross-validation estimate 0.761
+single-rule baseline (days_since_last_commit_6m) ROC-AUC 0.737
+AP, active class   0.405  (95% CI 0.337-0.489; no-skill = share active 0.160)
+AP, abandoned      0.942  (no-skill 0.840)
+Brier score        0.1143  (95% CI 0.1021-0.1279);  ECE 0.034;  mean predicted 0.836 vs observed 0.840
+
+At the cut-off 0.840 (65.1% of repos flagged at risk):
+                    not flagged   flagged
+  true active               112        46
+  true abandoned            232       595
+  recall abandoned 0.719, recall active 0.709, balanced accuracy 0.714 (95% CI 0.673-0.749)
+  precision abandoned 0.928, precision active 0.326
+
+By creation period (older repos had longer to be abandoned):
+  <= 2017    n=391  observed 0.898  predicted 0.844  AUC 0.765
+  2018-2019  n=225  observed 0.867  predicted 0.841  AUC 0.799
+  2020-2021  n=214  observed 0.790  predicted 0.816  AUC 0.863
+  2022-2023  n=155  observed 0.723  predicted 0.835  AUC 0.678
