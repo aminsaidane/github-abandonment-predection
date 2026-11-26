@@ -37,7 +37,7 @@ Language is one feature in the model (mean abs. SHAP 0.075, see finding 5).
 ## Findings
 
 1. **The strongest signal is silence at the end of month 6.** One standard deviation more days since the
-   last commit (about 69 days) multiplies the odds of abandonment by 1.61 (1.44–1.79). On its own: of
+   last commit (about 69 days) multiplies the odds of abandonment by 1.60 (1.44–1.79). On its own: of
    repositories whose last commit was within 14 days of the end of the window, 62% were abandoned; of those
    with no commit in the last 160 days, 94% (1,523 repositories, 39% of the training split).
 2. **Sustained activity matters more than volume.** One standard deviation more active weeks (about 5.5

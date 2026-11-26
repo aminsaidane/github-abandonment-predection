@@ -27,3 +27,9 @@ Without a token the 11 example repositories (held-out test split, with known out
 ```
 cd dashboard/frontend && npm install && npm run build      # dev server: npm run dev (API on :8000)
 ```
+
+## Pages
+
+- **Forecast**: link in, probability and "why this score" out.
+- **What the model learned**: step 5 results across the whole training set (odds ratios with intervals, observed rates by band, language effects, SHAP). Reads `reports/tables/interpretation_*.csv`; regenerate with `python -m src.interpret`.
+- **Model performance**: final test metrics and figures.

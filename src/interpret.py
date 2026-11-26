@@ -9,6 +9,7 @@ final model (models/final_model.pkl). Run from the repo root:
 Outputs
     reports/tables/interpretation_coefficients.csv   one row per input feature (language grouped)
     reports/tables/interpretation_language.csv       the 16 language effects
+    reports/tables/interpretation_bands.csv          observed abandonment rate by band of the top features
     reports/figures/interp_coefficients.png          odds ratio per +1 SD, 95% bootstrap interval
     reports/figures/interp_shap.png                  SHAP dot plot (training split)
 
@@ -101,6 +102,24 @@ def language_table(coef, boot, Z, y):
     return pd.DataFrame(rows).sort_values("coef", ascending=False)
 
 
+def band_table(X, y):
+    """Observed abandonment rate by band of the top features (training split). Feeds the dashboard."""
+    spec = [("days_since_last_commit_6m", [-1, 14, 60, 120, 160, 183], ["0-14 days", "15-60", "61-120", "121-160", "161-182"]),
+            ("active_weeks_6m", [-1, 1, 3, 6, 12, 26], ["0-1 weeks", "2-3", "4-6", "7-12", "13-26"])]
+    rows = []
+    for col, bins, labels in spec:
+        g = pd.cut(X[col], bins, labels=labels, include_lowest=True)
+        for b, d in pd.DataFrame({"g": g, "y": y.values}).groupby("g", observed=True):
+            rows.append(dict(feature=col, band=b, n=len(d), abandon_rate=d["y"].mean()))
+    binary = [("is_org", X["is_org"] > 0, "Organisation", "Personal"),
+              ("external_issue_authors_6m", X["external_issue_authors_6m"] > 0, "Someone else opened an issue or PR", "Nobody else did"),
+              ("prs_opened_6m", X["prs_opened_6m"] > 0, "Pull requests opened", "None opened")]
+    for col, mask, yes, no in binary:
+        for name, m in ((yes, mask), (no, ~mask)):
+            rows.append(dict(feature=col, band=name, n=int(m.sum()), abandon_rate=float(y[m.values].mean())))
+    return pd.DataFrame(rows)
+
+
 def shap_values(pipe, Z):
     """SHAP via the shap package, checked against the closed form for a linear model."""
     lr = pipe.named_steps["model"]
@@ -188,6 +207,7 @@ def main():
     tables.mkdir(parents=True, exist_ok=True)
     t.round(5).to_csv(tables / "interpretation_coefficients.csv", index=False)
     lang.round(5).to_csv(tables / "interpretation_language.csv", index=False)
+    band_table(X_tr, y_tr).round(5).to_csv(tables / "interpretation_bands.csv", index=False)
     fig_coefficients(t, figs / "interp_coefficients.png")
     fig_shap(S, Z, figs / "interp_shap.png")
 

@@ -1,0 +1,17 @@
+feature,band,n,abandon_rate
+days_since_last_commit_6m,0-14 days,586,0.62116
+days_since_last_commit_6m,15-60,678,0.74631
+days_since_last_commit_6m,61-120,633,0.84834
+days_since_last_commit_6m,121-160,516,0.90698
+days_since_last_commit_6m,161-182,1523,0.93828
+active_weeks_6m,0-1 weeks,1222,0.93126
+active_weeks_6m,2-3,1038,0.90751
+active_weeks_6m,4-6,724,0.82597
+active_weeks_6m,7-12,560,0.71964
+active_weeks_6m,13-26,392,0.56888
+is_org,Organisation,939,0.70181
+is_org,Personal,2997,0.88255
+external_issue_authors_6m,Someone else opened an issue or PR,1526,0.75164
+external_issue_authors_6m,Nobody else did,2410,0.89502
+prs_opened_6m,Pull requests opened,1238,0.74152
+prs_opened_6m,None opened,2698,0.88436

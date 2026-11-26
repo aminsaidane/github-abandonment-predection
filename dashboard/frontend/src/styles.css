@@ -158,6 +158,29 @@ ul.limits { margin: 0; padding-left: 18px; color: var(--ink-2); } ul.limits li {
 .spinner { color: var(--ink-2); padding: 20px 0; }
 footer { color: var(--ink-3); font-size: 12px; margin-top: 26px; }
 
+button.link { background: none; border: 0; padding: 0; color: var(--cyan); font: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.forest { position: relative; padding-bottom: 22px; }
+.frow { display: grid; grid-template-columns: 230px 1fr 130px; gap: 12px; align-items: center; padding: 5px 6px; border-radius: 10px; }
+.frow:hover { background: rgba(255, 255, 255, .05); }
+.frow .name { font-size: 13.5px; text-align: right; line-height: 1.25; }
+.frow .name small { display: block; color: var(--ink-3); font-size: 11.5px; }
+.ftrack { position: relative; height: 18px; }
+.ftrack i.tick { position: absolute; top: -8px; bottom: -8px; width: 1px; background: rgba(255, 255, 255, .08); }
+.ftrack i.one { position: absolute; top: -8px; bottom: -8px; width: 1px; background: rgba(255, 255, 255, .35); }
+.ftrack b { position: absolute; top: 8px; height: 3px; border-radius: 2px; }
+.ftrack b.raise { background: var(--raise); } .ftrack b.lower { background: var(--lower); }
+.ftrack .dot { position: absolute; top: 3px; width: 12px; height: 12px; border-radius: 50%; transform: translateX(-50%); border: 2px solid #0b1437; }
+.ftrack .dot.raise { background: var(--raise); box-shadow: 0 0 10px rgba(255, 107, 107, .6); }
+.ftrack .dot.lower { background: var(--lower); box-shadow: 0 0 10px rgba(61, 155, 255, .6); }
+.scale-ticks { position: relative; height: 14px; margin: 4px 142px 0 242px; font-size: 11px; color: var(--ink-3); }
+.scale-ticks span { position: absolute; transform: translateX(-50%); }
+.brow { display: grid; grid-template-columns: 170px 1fr 48px; gap: 12px; align-items: center; padding: 5px 0; }
+.brow .bl { font-size: 13px; text-align: right; line-height: 1.25; }
+.brow .bl small { display: block; color: var(--ink-3); font-size: 11.5px; }
+.btrack { position: relative; height: 10px; background: rgba(255, 255, 255, .06); border-radius: 6px; }
+.btrack b { position: absolute; left: 0; top: 0; height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--blue), var(--cyan)); box-shadow: 0 0 10px rgba(0, 117, 255, .45); }
+.btrack i { position: absolute; top: -4px; bottom: -4px; width: 2px; background: #fff; border-radius: 1px; z-index: 1; }
+.brow .bv { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
 @media (max-width: 900px) {
   .shell { grid-template-columns: 1fr; }
   .side { position: static; height: auto; flex-direction: row; align-items: center; padding: 12px 14px; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--line); }
@@ -168,6 +191,8 @@ footer { color: var(--ink-3); font-size: 12px; margin-top: 26px; }
 }
 @media (max-width: 640px) {
   .row, .axis-lbl { grid-template-columns: 120px 1fr 52px; }
+  .frow { grid-template-columns: 110px 1fr 84px; } .scale-ticks { margin: 4px 94px 0 122px; }
+  .brow { grid-template-columns: 96px 1fr 42px; }
   form.lookup { flex-direction: column; } form.lookup button { padding: 12px; }
   .pbars, .plabels { gap: 10px; }
 }

@@ -19,6 +19,7 @@ const PATHS = {
   star: "m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3z",
   cal: "M4 6h16v14H4zM4 10h16M8 3v4m8-4v4",
   gauge: "M4 17a8 8 0 1 1 16 0M12 17l4-5",
+  bulb: "M9 18h6m-5 3h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z",
   scale: "M12 4v16M5 8h14M5 8l-3 7h6L5 8zm14 0-3 7h6l-3-7z",
 };
 const Icon = ({ name }) => (
@@ -31,13 +32,16 @@ export default function App() {
   const [tab, setTab] = useState("forecast");
   const [health, setHealth] = useState(null);
   useEffect(() => { api("/api/health").then(setHealth).catch(() => {}); }, []);
-  const titles = { forecast: "Abandonment forecast", perf: "Model performance" };
+  const titles = { forecast: "Abandonment forecast", insights: "What the model learned", perf: "Model performance" };
   return (
     <div className="shell">
       <aside className="side">
         <div className="brand"><span className="logo"><Icon name="bolt" /></span>REPO FORECAST</div>
         <button className={`nav-item ${tab === "forecast" ? "on" : ""}`} onClick={() => setTab("forecast")}>
           <span className="ico"><Icon name="gauge" /></span>Forecast
+        </button>
+        <button className={`nav-item ${tab === "insights" ? "on" : ""}`} onClick={() => setTab("insights")}>
+          <span className="ico"><Icon name="bulb" /></span>What the model learned
         </button>
         <button className={`nav-item ${tab === "perf" ? "on" : ""}`} onClick={() => setTab("perf")}>
           <span className="ico"><Icon name="chart" /></span>Model performance
@@ -51,20 +55,22 @@ export default function App() {
       </aside>
       <main className="main">
         <div className="crumbs">Pages / <b>{titles[tab]}</b></div>
-        <h1>{tab === "forecast" ? "Will this GitHub repository be abandoned?" : "How good is the model?"}</h1>
+        <h1>{{ forecast: "Will this GitHub repository be abandoned?", insights: "What does the model look for?", perf: "How good is the model?" }[tab]}</h1>
         <p className="lead">
           {tab === "forecast"
             ? "Paste a repository link. The model reads its first six months of activity and estimates the chance that it ends up with no push for more than a year."
+            : tab === "insights"
+            ? "Across all the repositories the model was trained on, which early signals go with a project being abandoned, and how strongly?"
             : "Everything on this page comes from a final test set that was kept aside and evaluated once, after every modelling choice was fixed."}
         </p>
-        {tab === "forecast" ? <Forecast health={health} /> : <Performance />}
+        {tab === "forecast" ? <Forecast health={health} go={setTab} /> : tab === "insights" ? <Insights /> : <Performance />}
       </main>
     </div>
   );
 }
 
 /* ------------------------------------------------------------------ forecast */
-function Forecast({ health }) {
+function Forecast({ health, go }) {
   const [url, setUrl] = useState("");
   const [examples, setExamples] = useState([]);
   const [busy, setBusy] = useState(false);
@@ -104,7 +110,7 @@ function Forecast({ health }) {
 
       {error && <div className="notice err">{error}</div>}
       {busy && <div className="spinner">Reading the repository's first six months from GitHub… this can take 10–60 seconds for a busy repository.</div>}
-      {result && !busy && <Result r={result} />}
+      {result && !busy && <Result r={result} go={go} />}
     </>
   );
 }
@@ -139,7 +145,7 @@ function Gauge({ p, threshold }) {
   );
 }
 
-function Result({ r }) {
+function Result({ r, go }) {
   const p = r.p_abandoned;
   const avg = r.average_repo_p_abandoned;
   const info = r.repo;
@@ -181,13 +187,13 @@ function Result({ r }) {
         </div>
       </div>
 
-      <Why r={r} />
+      <Why r={r} go={go} />
     </>
   );
 }
 
 /* ------------------------------------------------------------------ why this score */
-function Why({ r }) {
+function Why({ r, go }) {
   const [view, setView] = useState("chart");
   const [tip, setTip] = useState(null);
   const rows = r.contributions;
@@ -244,8 +250,138 @@ function Why({ r }) {
           </tbody>
         </table>
       )}
-      <p className="note-line">“Typical” is the median repository of the training data. The explanation is exact for this model (a logistic regression), not an approximation.</p>
+      <p className="note-line">“Typical” is the median repository of the training data. The explanation is exact for this model (a logistic regression), not an approximation.{" "}
+        <button className="link" onClick={() => go("insights")}>What does the model look for across all repositories? →</button></p>
     </div>
+  );
+}
+
+
+/* ------------------------------------------------------------------ what the model learned */
+const OR_MIN = 0.6, OR_MAX = 1.9;
+const xpos = (v) => ((Math.log(v) - Math.log(OR_MIN)) / (Math.log(OR_MAX) - Math.log(OR_MIN))) * 100;
+
+function Forest({ rows, lw = 230, rw = 130, short = false }) {
+  const ticks = [0.7, 1, 1.5];
+  const cols = `${lw}px 1fr ${rw}px`;
+  return (
+    <div className="forest">
+      <div className="axis-lbl" style={{ gridTemplateColumns: cols }}><span /><div><span>{short ? "← lower" : "← lowers the odds"}</span><span>{short ? "higher →" : "raises the odds →"}</span></div><span /></div>
+      {rows.map((r) => (
+        <div className="frow" style={{ gridTemplateColumns: cols }} key={r.key} title={`Odds ratio ${r.or.toFixed(2)} (${r.lo.toFixed(2)}–${r.hi.toFixed(2)})`}>
+          <div className="name" style={{ opacity: r.sig ? 1 : 0.6 }}>{r.label}{r.flag ? " *" : ""}{r.note && <small>{r.note}</small>}</div>
+          <div className="ftrack">
+            {ticks.map((t) => <i key={t} className={t === 1 ? "one" : "tick"} style={{ left: `${xpos(t)}%` }} />)}
+            <b className={r.or > 1 ? "raise" : "lower"} style={{ left: `${xpos(r.lo)}%`, width: `${xpos(r.hi) - xpos(r.lo)}%`, opacity: r.sig ? 0.7 : 0.3 }} />
+            <span className={`dot ${r.or > 1 ? "raise" : "lower"}`} style={{ left: `${xpos(r.or)}%` }} />
+          </div>
+          <div className={`pts ${r.or > 1 ? "raise" : "lower"}`} style={{ textAlign: "left", opacity: r.sig ? 1 : 0.6 }}>{r.or.toFixed(2)} <small style={{ color: "var(--ink-3)", fontWeight: 400 }}>({r.lo.toFixed(2)}–{r.hi.toFixed(2)})</small></div>
+        </div>
+      ))}
+      <div className="scale-ticks" style={{ margin: `4px ${rw + 12}px 0 ${lw + 12}px` }}>{ticks.map((t) => <span key={t} style={{ left: `${xpos(t)}%` }}>{t}</span>)}</div>
+    </div>
+  );
+}
+
+function Bands({ title, sub, rows, base }) {
+  return (
+    <div className="card">
+      <h2>{title}</h2>
+      <p className="sub">{sub}</p>
+      {rows.map((b) => (
+        <div className="brow" key={b.band}>
+          <div className="bl">{b.band}<small>{b.n.toLocaleString()} repos</small></div>
+          <div className="btrack">
+            <i style={{ left: `${base * 100}%` }} />
+            <b style={{ width: `${b.abandon_rate * 100}%` }} />
+          </div>
+          <div className="bv">{pct(b.abandon_rate)}</div>
+        </div>
+      ))}
+      <p className="note-line">White tick: {pct(base, 1)}, the share abandoned in the whole training set.</p>
+    </div>
+  );
+}
+
+function Insights() {
+  const [d, setD] = useState(null);
+  const [err, setErr] = useState(null);
+  const [view, setView] = useState("chart");
+  useEffect(() => { api("/api/insights").then(setD).catch((e) => setErr(e.message)); }, []);
+  if (err) return <div className="notice err">{err}</div>;
+  if (!d) return <div className="spinner">Loading…</div>;
+
+  const rows = d.coefficients.map((c) => ({ key: c.feature, label: c.label, or: c.odds_ratio, lo: c.or_low, hi: c.or_high, sig: c.excludes_zero, flag: c.sign_flips_vs_alone, shap: c.mean_abs_shap }));
+  const lang = d.language.map((l) => ({ key: l.language, label: l.language, note: `${l.n} repos · ${pct(l.abandon_rate)}`, or: Math.exp(l.coef), lo: Math.exp(l.ci_low), hi: Math.exp(l.ci_high), sig: l.excludes_zero }));
+  const band = (f) => d.bands.filter((b) => b.feature === f);
+  const base = (() => { const b = band("is_org"); return b.reduce((s, x) => s + x.n * x.abandon_rate, 0) / b.reduce((s, x) => s + x.n, 0); })();
+  const top = (f) => rows.find((r) => r.key === f);
+  const days = top("days_since_last_commit_6m"), weeks = top("active_weeks_6m");
+  const dBands = band("days_since_last_commit_6m"), wBands = band("active_weeks_6m");
+  const first = (a) => a[0], last = (a) => a[a.length - 1];
+
+  return (
+    <>
+      <div className="stats">
+        <Stat icon="cal" k="Strongest signal">Days since last commit</Stat>
+        <Stat icon="scale" k="Odds per +1 SD (≈69 days)">×{days.or.toFixed(2)}</Stat>
+        <Stat icon="chart" k="Quiet in last 160 days: abandoned">{pct(last(dBands).abandon_rate)}</Stat>
+        <Stat icon="star" k="Active in last 14 days: abandoned">{pct(first(dBands).abandon_rate)}</Stat>
+      </div>
+
+      <div className="card">
+        <div className="head-row">
+          <div style={{ flex: 1, minWidth: 260 }}>
+            <h2>What raises or lowers the odds of abandonment</h2>
+            <p className="sub">
+              Odds ratio per +1 standard deviation of each feature, with the other features held fixed. Right of the line raises the risk, left lowers it.
+              Faded rows have an interval that includes 1, so the effect is not clearly different from zero. Features are listed from most to least influential.
+            </p>
+          </div>
+          <div className="toggle">
+            <button className={view === "chart" ? "on" : ""} onClick={() => setView("chart")}>Chart</button>
+            <button className={view === "table" ? "on" : ""} onClick={() => setView("table")}>Table</button>
+          </div>
+        </div>
+        {view === "chart" ? <Forest rows={rows} /> : (
+          <table>
+            <thead><tr><th>Feature</th><th className="num">Odds ratio</th><th className="num">95% interval</th><th className="num">Mean abs. SHAP</th></tr></thead>
+            <tbody>{rows.map((r) => <tr key={r.key}><td>{r.label}{r.flag ? " *" : ""}</td><td className="num">{r.or.toFixed(2)}</td><td className="num">{r.lo.toFixed(2)}–{r.hi.toFixed(2)}</td><td className="num">{r.shap.toFixed(3)}</td></tr>)}</tbody>
+          </table>
+        )}
+        <p className="note-line">* On its own this feature goes with <i>less</i> abandonment. It turns positive only once overlapping features are held fixed, so do not read it as “causes abandonment”.</p>
+      </div>
+
+      <div className="grid2" style={{ gridTemplateColumns: "1fr 1fr" }}>
+        <Bands title="Days since the last commit" sub="Share of repositories abandoned, by how long ago the last commit was at the end of month 6." rows={dBands} base={base} />
+        <Bands title="Active weeks in the first 6 months" sub="Share abandoned, by how many of the 26 weeks had at least one commit." rows={wBands} base={base} />
+      </div>
+      <div className="grid2" style={{ gridTemplateColumns: "1fr 1fr" }}>
+        <Bands title="Who owns it, who joins in" sub="Organisation versus personal repositories, and whether other people took part."
+          rows={[...band("is_org"), ...band("external_issue_authors_6m"), ...band("prs_opened_6m")]} base={base} />
+        <div className="card">
+          <h2>Main language</h2>
+          <p className="sub">A small effect overall. Faded rows: the interval includes 1. With 16 languages, a few can miss 1 by chance.</p>
+          <Forest rows={lang} lw={150} rw={104} short />
+        </div>
+      </div>
+
+      <div className="card">
+        <h2>Read with care</h2>
+        <ul className="limits" style={{ marginTop: 10 }}>
+          <li><b>Associations, not causes.</b> These are patterns in past repositories. Making a commit on day 180 does not by itself keep a project alive.</li>
+          <li><b>Overlapping features.</b> Commits, active weeks and contributors move together, so a coefficient shows what a feature adds beyond the others. That is why forks and contributors can look “bad” here although they go with less abandonment on their own.</li>
+          <li><b>One signal does most of the work.</b> Days since the last commit alone already ranks repositories almost as well as the full model (ROC AUC 0.74 against 0.78 on the test set).</li>
+          <li><b>Uncertainty.</b> Intervals come from 500 refits on resampled training data. They do not cover drift between creation periods.</li>
+        </ul>
+      </div>
+
+      <div className="card">
+        <h2>Which features move individual predictions (SHAP)</h2>
+        <p className="sub">Each dot is one training repository. Dots to the right raise its predicted risk. Colour shows how high the feature is for that repository. For this linear model SHAP is exact and matches the “why this score” chart.</p>
+        <div className="figs"><figure style={{ margin: 0, gridColumn: "1 / -1" }}><img src={`/figures/${d.shap_figure}`} alt="SHAP dot plot of the final model on the training split" /></figure></div>
+      </div>
+    </>
   );
 }
 

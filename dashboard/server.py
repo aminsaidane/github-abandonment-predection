@@ -11,6 +11,7 @@ import threading
 import time
 from pathlib import Path
 
+import pandas as pd
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -103,6 +104,18 @@ def performance():
     return {"metrics": m, "decisions": {k: d[k] for k in ("C", "calibration", "threshold", "criterion", "n_train", "oof")},
             "figures": ["final_roc_curve.png", "final_calibration.png", "final_confusion_matrix.png",
                         "final_threshold_tradeoff.png"]}
+
+
+@app.get("/api/insights")
+def insights():
+    """Step 5 results (python -m src.interpret): coefficients, language effects, observed rates by band."""
+    t = config.REPORTS_DIR / "tables"
+    try:
+        read = lambda n: pd.read_csv(t / f"interpretation_{n}.csv").to_dict(orient="records")
+        return {"coefficients": read("coefficients"), "language": read("language"), "bands": read("bands"),
+                "shap_figure": "interp_shap.png"}
+    except FileNotFoundError:
+        raise HTTPException(404, "Interpretation tables not found. Run: python -m src.interpret")
 
 
 app.mount("/figures", StaticFiles(directory=config.FIGURES_DIR), name="figures")
