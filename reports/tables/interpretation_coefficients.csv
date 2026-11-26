@@ -1,0 +1,14 @@
+feature,label,coef,odds_ratio,ci_low,ci_high,or_low,or_high,excludes_zero,alone_auc,alone_spearman,share_boot_same_sign,sign_flips_vs_alone,mean_abs_shap
+days_since_last_commit_6m,Days since the last commit (at month 6),0.47306,1.60489,0.3621,0.5842,1.43634,1.79355,True,0.72872,0.29134,1.0,False,0.43288
+is_org,Owned by an organization,-0.24792,0.78043,-0.34056,-0.14319,0.71137,0.86659,True,0.37821,-0.20982,1.0,False,0.21133
+active_weeks_6m,Active weeks (out of 26),-0.25362,0.77599,-0.3731,-0.14142,0.68859,0.86813,True,0.28256,-0.28033,1.0,False,0.18532
+forks_6m,Forks,0.17996,1.19717,0.07497,0.28615,1.07785,1.33129,True,0.46483,-0.04851,1.0,True,0.13819
+external_issue_authors_6m,People other than the owner who opened issues or PRs,-0.17221,0.8418,-0.31134,-0.04478,0.73247,0.95621,True,0.35017,-0.2178,1.0,False,0.13551
+contributors_6m,Contributors,0.14062,1.15099,0.0271,0.26436,1.02747,1.30259,True,0.38474,-0.18162,0.99,True,0.09137
+prs_opened_6m,Pull requests opened,-0.12405,0.88334,-0.23956,-0.00969,0.78697,0.99036,True,0.36429,-0.2098,0.98,False,0.08931
+commits_6m,Commits in the first 6 months,0.05991,1.06175,-0.05851,0.18912,0.94317,1.20818,False,0.32098,-0.22776,0.81,True,0.04812
+precreation_commits,Commits before creation (imported history),-0.07418,0.9285,-0.14561,-0.0013,0.8645,0.99871,True,0.47341,-0.04289,0.978,False,0.04693
+commits_last_30d_6m,Commits in the last 30 days of the window,-0.06654,0.93563,-0.16873,0.03907,0.84474,1.03984,False,0.33579,-0.28863,0.892,False,0.04604
+issues_prs_closed_6m,Issues and PRs closed,-0.04767,0.95345,-0.19737,0.0827,0.82088,1.08621,False,0.34372,-0.22862,0.738,False,0.03584
+issues_opened_6m,Issues opened,-0.03189,0.96861,-0.14554,0.06741,0.86456,1.06973,False,0.38708,-0.17413,0.732,False,0.02358
+nonowner_contributors_6m,Contributors other than the owner,0.01071,1.01077,-0.10092,0.14848,0.904,1.16007,False,0.35872,-0.2086,0.538,True,0.00846

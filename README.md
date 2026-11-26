@@ -58,6 +58,7 @@ Run everything from the repository root.
 | 9 | Benchmark of 14 models (about 25 min) | `python -m src.benchmark` | → `reports/model_benchmark.csv`, `reports/figures/model_benchmark.png` |
 | 10 | Snapshot model (lifetime counts, kept for comparison) | `python -m src.train`, then `python -m src.evaluate` | → `models/best_model.pkl`, `reports/` |
 | 11 | Final model: freeze on the training split, then one-shot test evaluation | `python -m src.final_evaluate --fit`, then `--evaluate` (`--dry-run` checks the code without touching the test split) | `pipeline3_output.csv` → `reports/final_*`, `models/final_model.pkl` |
+| 12 | Interpretation: coefficients with bootstrap intervals, SHAP, written findings (training split only) | `python -m src.interpret` | → `reports/interpretation.md`, `reports/tables/interpretation_*.csv`, `reports/figures/interp_*.png` |
 
 Once `data/early_activity.csv` exists, `pipelines/workflow.hwf` runs steps 3 and 5 in a single click.
 
